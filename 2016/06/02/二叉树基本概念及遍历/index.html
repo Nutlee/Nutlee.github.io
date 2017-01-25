@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          二叉树基本概念及遍历 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/06/02/二叉树基本概念及遍历/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
+                        
+                          <a class="tag" href="/tags/#二叉树" title="二叉树">二叉树</a>
+                        
+                    </div>
+                    <h1>二叉树基本概念及遍历</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-06-02
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>&nbsp;<br><a id="more"></a></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>节点的度：一个结点拥有的子树数目称为该结点的度。<br>二叉树深度：树中节点的最大层次<br>叶节点：度为0的节点， 即不拥有子树的</p>
+<p>满二叉树： 特点：对称，除了叶结点外每一个结点都有左右子叶且叶子结点都处在最底层的二叉树。<br>完全二叉树：若设二叉树的深度h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第h层有叶子结点，并且叶子结点都是从左到右依次排布，这就是完全二叉树。</p>
+<h2 id="遍历二叉树"><a href="#遍历二叉树" class="headerlink" title="遍历二叉树"></a>遍历二叉树</h2><p>遍历即将树的所有结点访问且仅访问一次。按照根节点位置的不同分为前序遍历，中序遍历，后序遍历。</p>
+<ul>
+<li><p>前序（ 先序 ）遍历规则：根节点-&gt;左子树-&gt;右子树<br>对于非空树从根节点开始，先根节点，然后对左子树进行 先根节点—&gt;左子树—&gt;右子树  前序遍历规则，以此类推。</p>
+</li>
+<li><p>中序遍历规则：左子树-&gt;根节点-&gt;右子树<br>对于非空树从根节点开始，先左子树，然后对左子树进行 先左子树—&gt;根节点—&gt;右子树  中序遍历规则，以此类推。<br>计算中序遍历拥有比较简单直观的 <strong>投影法</strong> 。</p>
+</li>
+<li><p>后序遍历规则：左子树-&gt;右子树-&gt;根节点<br>对于非空树从根节点开始，先左子树，然后对左子树进行 先左子树—&gt;右子树—&gt;根节点  后序遍历规则，以此类推。</p>
+</li>
+<li><p>层序遍历<br>除了先序遍历、中序遍历、后序遍历外，还可以对二叉树进行层序遍历。设二叉树的根节点所在层数为1，层序遍历就是从所在二叉树的根节点出发，首先访问第一层的树根节点，然后从左到右访问第2层上的节点，接着是第三层的节点，以此类推，自上而下，自左至右逐层访问树的结点的过程就是层序遍历。（即一层一层遍历）<br><br><br>例如：求下面树的三种遍历<br><img src="http://7xs1z3.com1.z0.glb.clouddn.com/binarytree00.png"></p>
+<p>  前序遍历：abdefgc<br>  中序遍历：debgfac<br>  后序遍历：edgfbca</p>
+<p>  注意此题特殊在于e是右分支不要当做左分支。</p>
+</li>
+</ul>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>其中 focusNodeList 是用来存放遍历结果的数组，通过遍历访问该数组可以展示不同算法的遍历顺序。以下代码均经过验证，请点击 <a href="http://nutlee.github.io/FrontendHandsome/stage2/2.10.html" target="_blank" rel="external">Demo</a> 查看效果。</p>
+<ul>
+<li><p>先序（ 前序 ）</p>
+<ul>
+<li><p>递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var preOrder0 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	if (<span class="keyword">node</span><span class="title">) &#123; </span></div><div class="line">		focusNodeList.push(<span class="keyword">node</span><span class="title">);</span></div><div class="line">		preOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>]);</div><div class="line">		preOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>]);</div><div class="line">	&#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>非递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var preOrder1 =function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	if (!<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	    throw new Error('Empty Tree')</div><div class="line">	&#125;	</div><div class="line">    var <span class="attr">stack=</span>[]; //模拟栈  </div><div class="line">    stack.push(<span class="keyword">node</span><span class="title">);  </span></div><div class="line">    do&#123;  </div><div class="line">    	//pop() 后进先出</div><div class="line">        if((<span class="keyword">node</span><span class="title">=stack</span>.pop())!=null)&#123; //出栈  </div><div class="line">            focusNodeList.push(<span class="keyword">node</span><span class="title">); </span></div><div class="line">            stack.push(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>]); //右子节点入栈  </div><div class="line">            stack.push(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>]); //左子节点入栈  </div><div class="line">        &#125;  </div><div class="line">    &#125;while(!!stack.length);	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>中序</p>
+<ul>
+<li><p>递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var inOrder0 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	if (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">		inOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>]);</div><div class="line">    	focusNodeList.push(<span class="keyword">node</span><span class="title">);</span></div><div class="line">    	inOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>]);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>非递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var inOrder1 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	 if (!<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	     throw new Error('Empty Tree')</div><div class="line">	 &#125;</div><div class="line">	 var stack = []</div><div class="line">	 while (stack.length !== <span class="number">0</span> || <span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	     if (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	         stack.push(<span class="keyword">node</span><span class="title">)</span></div><div class="line">	         node = <span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>];</div><div class="line">	     &#125; else &#123;</div><div class="line">	         <span class="keyword">node</span> <span class="title">= stack</span>.pop()</div><div class="line">	         focusNodeList.push(<span class="keyword">node</span><span class="title">);</span></div><div class="line">	         node = <span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>];</div><div class="line">	     &#125;</div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>后序</p>
+<ul>
+<li><p>递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var postOrder0 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">  if (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">    postOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>]);</div><div class="line">    postOrder0(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>]);</div><div class="line">    focusNodeList.push(<span class="keyword">node</span><span class="title">);</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>非递归</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 后序 非递归  使用<span class="number">1</span>个栈</div><div class="line"> * @param  &#123;[<span class="keyword">type</span>]&#125; <span class="keyword">node</span> <span class="title">[输入tree</span>]</div><div class="line"> * </div><div class="line"> */</div><div class="line">var postOrder1 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	if (!<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	    throw new Error('Empty Tree');</div><div class="line">	&#125;</div><div class="line">	var stack = [];</div><div class="line">	stack.push(<span class="keyword">node</span><span class="title">);</span></div><div class="line">	var tmp = null;</div><div class="line">	while (stack.length !== <span class="number">0</span>) &#123;</div><div class="line">	    tmp = stack[stack.length - <span class="number">1</span>]</div><div class="line">	    if (tmp.children[<span class="number">0</span>] &amp;&amp; <span class="keyword">node</span> <span class="title">!== tmp</span>.children[<span class="number">0</span>] &amp;&amp; <span class="keyword">node</span> <span class="title">!== tmp</span>.children[<span class="number">1</span>]) &#123;</div><div class="line">	        stack.push(tmp.children[<span class="number">0</span>]);</div><div class="line">	    &#125; else if (tmp.children[<span class="number">1</span>] &amp;&amp; <span class="keyword">node</span> <span class="title">!== tmp</span>.children[<span class="number">1</span>]) &#123;</div><div class="line">	        stack.push(tmp.children[<span class="number">1</span>]);</div><div class="line">	    &#125; else &#123;</div><div class="line">	        focusNodeList.push(stack.pop());</div><div class="line">	        <span class="keyword">node</span> <span class="title">= tmp</span>;</div><div class="line">	    &#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 后序 非递归 使用两个栈</div><div class="line"> * @param  &#123;[<span class="keyword">type</span>]&#125; <span class="keyword">node</span> <span class="title">[输入tree</span>]</div><div class="line"> * </div><div class="line"> */</div><div class="line">var postOrder1 = function (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	if (<span class="keyword">node</span><span class="title">) &#123;</span></div><div class="line">	    var s1 = []</div><div class="line">	    var s2 = []</div><div class="line">	    s1.push(<span class="keyword">node</span><span class="title">)</span></div><div class="line">	    while (s1.length !== <span class="number">0</span>) &#123;</div><div class="line">	        <span class="keyword">node</span> <span class="title">= s1</span>.pop()</div><div class="line">	        s2.push(<span class="keyword">node</span><span class="title">)</span></div><div class="line">	        if (<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>]) &#123;</div><div class="line">	            s1.push(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">0</span>])</div><div class="line">	        &#125;</div><div class="line">	        if (<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>]) &#123;</div><div class="line">	            s1.push(<span class="keyword">node</span>.<span class="title">children</span>[<span class="number">1</span>])</div><div class="line">	        &#125;</div><div class="line">	    &#125;</div><div class="line">	    while (s2.length !== <span class="number">0</span>) &#123;</div><div class="line">	        focusNodeList.push(s2.pop());</div><div class="line">	    &#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>参考资料：<br><a href="http://blog.csdn.net/tfygg/article/details/46763389" target="_blank" rel="external">二叉树基本概念</a><br><a href="http://blog.csdn.net/fansongy/article/details/6798278" target="_blank" rel="external">二叉树 前序、中序、后序、层次遍历及非递归实现 查找、统计个数、比较、求深度的递归实现</a><br><a href="http://www.html-js.com/article/JavaScript-describes-the-data-structure-and-algorithm-of-two-forks-tree-traversal-and-basic-operation" target="_blank" rel="external">javascript描述数据结构：二叉树的遍历和基本操作</a><br><strong><a href="http://www.jb51.net/article/81156.htm" target="_blank" rel="external">JS中的二叉树遍历详解</a></strong><br><a href="http://mengliao.blog.51cto.com/876134/1178079" target="_blank" rel="external">遍历二叉树的九种算法</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/06/02/二叉树基本概念及遍历/"
+                    data-title="二叉树基本概念及遍历"
+                    data-url="http://nutlee.space/2016/06/02/二叉树基本概念及遍历/"
+                    data-images=""
+                    data-content="&nbsp;
+基本概念节点的度：一个结点拥有的子树数目称为该结点的度。二叉树深度：树中节点的最... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/06/04/Demo&Product/" data-toggle="tooltip" data-placement="top" title="Demo & Product">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/05/29/JS浮点数四则运算精度丢失问题/" data-toggle="tooltip" data-placement="top" title="JS浮点数四则运算精度丢失问题">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/06/02/二叉树基本概念及遍历/"
+                        data-title="二叉树基本概念及遍历"
+                        data-url="http://nutlee.space/2016/06/02/二叉树基本概念及遍历/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
+                        
+                          <a class="tag" href="/tags/#二叉树" title="二叉树">二叉树</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

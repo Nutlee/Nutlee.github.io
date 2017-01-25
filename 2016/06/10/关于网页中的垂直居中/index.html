@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          关于网页中的垂直居中 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/06/10/关于网页中的垂直居中/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+                        
+                          <a class="tag" href="/tags/#HTML" title="HTML">HTML</a>
+                        
+                          <a class="tag" href="/tags/#垂直居中" title="垂直居中">垂直居中</a>
+                        
+                    </div>
+                    <h1>关于网页中的垂直居中</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-06-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>&nbsp;<br><a id="more"></a></p>
+<p>在网页制作中常会遇到水平居中和垂直居中的场景，相对而言，水平居中较简单，而垂直居中则较麻烦些，而且垂直居中要考虑的情况很多。下面本文就从使用的角度按综合难易程度和优雅性介绍几种方案。<br>以下代码均测试过可以完美运行。</p>
+<div id="1"></div>
+
+<h2 id="icon和文字的垂直居中-（近似居中）"><a href="#icon和文字的垂直居中-（近似居中）" class="headerlink" title="icon和文字的垂直居中 （近似居中）"></a>icon和文字的垂直居中 （近似居中）</h2><p>这种情况一般是比较小的局部内容，将容器的height和line-height设置为一致就能保证内部元素 <strong>“近似居中”</strong>。说是近似居中的原因在于，行内元素默认是base-line（基线）对齐，多数情况下基线只是 <strong>约等于</strong> 容器的“中线”，虽然不是绝对的居中，但是对于icon和文字对齐这种情况已经够用，如果非要追求完全垂直居中，就要操作 vertical-align 属性。（参见下面 4.inline-block 方法）</p>
+<h2 id="完全居中"><a href="#完全居中" class="headerlink" title="完全居中"></a>完全居中</h2><p>个人看来最佳的方案，虽然没有想象的百分之百灵活，但是已经适用于绝大部分情况了。</p>
+<ul>
+<li>优点：兼容性较好，现代浏览器&amp;IE8+，使用非常简便，不用手动计算margin/padding/width/height。</li>
+<li><p>缺点：不能撑开父容器（ 即：父容器需要定高 ），当然居中的对象也要明确高度的，需要position: absolute。</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">height</span>: <span class="number">500px</span>;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">position</span>: absolute;</div><div class="line">		<span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">		<span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">		<span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">		<span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">		<span class="attribute">height</span>: <span class="number">300px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">		<span class="attribute">margin</span>: auto;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">		<span class="comment">/*overflow: hidden;*/</span></div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span>	</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  <br><br>  如图</p>
+  <div style="position:relative;height:100px;background-color:grey;"><br>      <div style="position:absolute;top:0;right:0;bottom:0;left:0;height:50px;width:100px;margin:auto;background-color:yellow"></div><br>  </div>
+
+
+</li>
+</ul>
+<h2 id="使用display-table-cell"><a href="#使用display-table-cell" class="headerlink" title="使用display: table-cell"></a>使用display: table-cell</h2><p>从使用效果上看应该是最完美的方式。</p>
+<ul>
+<li>优点：兼容性好，现代浏览器&amp;IE8+，通用性好便于移植，可以撑开父容器。</li>
+<li><p>缺点：需要额外套一层无语义标签，不够简洁。</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">display</span>: table;</div><div class="line">		<span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">		<span class="attribute">margin</span>: <span class="number">0</span> auto;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.wrap</span> &#123;</div><div class="line">		<span class="attribute">display</span>: table-cell;</div><div class="line">		<span class="attribute">vertical-align</span>: middle;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">		<span class="comment">/*overflow: hidden;*/</span></div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span>	</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  如图 ( 同时设置了水平居中 )</p>
+  <div style="display:table;height:300px;margin:0 auto;background-color:grey;"><br>      <div style="display:table-cell;vertical-align: middle;"><br>          <div style="width:100px;background-color:yellow;">文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器</div><br>      </div><br>  </div>    
+
+</li>
+</ul>
+<h2 id="inline-block-方法-1"><a href="#inline-block-方法-1" class="headerlink" title="inline-block 方法 1"></a>inline-block 方法 1</h2><p>利用 <strong><a href="#1">1.icon和文字的垂直居中</a></strong> 中提到的 inline 元素内部的垂直居中规则。为了做到 <strong>完全垂直居中</strong> 需引入空的inline标签如 “<i></i>“，同时操作 vertical-aligin: middle 将基线和容器的中线保持一致。</p>
+<ul>
+<li>优点：兼容性好，现代浏览器&amp;IE8+&amp;IE7*，通用性好便于移植，可以撑开父容器。</li>
+<li><p>缺点：需引入无语义空 inline 标签，还有如果父容器不是 inline/inline-block 元素要改变父容器 display 属性，有可能造成其他不确定的后果，IE7下需要hack让元素inline-block。</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">		<span class="attribute">text-align</span>: center;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">display</span>: inline-block;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">vertical-align</span>: middle;</div><div class="line">		<span class="comment">/*text-align: initial;*/</span></div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.container</span> <span class="selector-tag">i</span> &#123;</div><div class="line">		<span class="attribute">display</span>: inline-block;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">		<span class="attribute">vertical-align</span>: middle;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  如图 （ 同时设置了水平居中 ）<br>  <div style="height:300px;text-align:center;background-color:grey;"><div style="display:inline-block;width:100px;vertical-align:middle;background-color:yellow;">文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器</div><i style="display:inline-block;height:100%;vertical-align:middle;"></i><br>  </div><br>  <strong>此方法有两点要注意</strong></p>
+<ol>
+<li>父容器内部不能有其他的inline元素干扰中线对齐，即不能用默认base-line对齐的元素存在或者不是 vertical-align:middle 。 </li>
+<li>也可以设置父容器 font-size: 0 ，这样也是为了使容器内中线和基线位置一致，当容器内需要文字时再单独设置其font-size，即可省去无语义 i 标签。</li>
+</ol>
+</li>
+</ul>
+<h2 id="inline-block-方法-2"><a href="#inline-block-方法-2" class="headerlink" title="inline-block 方法 2"></a>inline-block 方法 2</h2><p>基本原理等同于1，不过使用伪类 :after { content: “”} 构造空的 inline-block 元素保证容器内 <strong>完全垂直居中</strong>。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">height</span>: <span class="number">500px</span>;</div><div class="line">		<span class="attribute">text-align</span>: center;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.container</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">		<span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">		<span class="attribute">display</span>: inline-block;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">		<span class="attribute">margin-left</span>: -<span class="number">0.25em</span>; <span class="comment">/* To offset spacing. May vary by font */</span></div><div class="line">		<span class="attribute">vertical-align</span>: middle;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">display</span>: inline-block;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">max-width</span>: <span class="number">99%</span>; <span class="comment">/* Prevents issues with long content causes the content block to be pushed to the top */</span></div><div class="line">		<span class="comment">/* max-width: calc(100% - 0.25em) /* Only for IE9+ */</span> </div><div class="line">		<span class="attribute">vertical-align</span>: middle;</div><div class="line">		<span class="comment">/*text-align: initial;*/</span></div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span>	</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器文字为了撑开容器<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如图 inline-block 方法 1 中图效果。</p>
+<div id="6"></div>
+
+<h2 id="负margin"><a href="#负margin" class="headerlink" title="负margin"></a>负margin</h2><p>与 <strong><a href="#7">7.空div方式异曲同工</a></strong>，常用于兼容性要求极为苛刻时，简单粗暴。</p>
+<ul>
+<li>优点：兼容性极佳，甚至兼容IE6~7，使用方式固定、简单。</li>
+<li><p>缺点：每次都要计算负margin值，不够灵活，不能适应响应式设计，实现粗暴。</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">height</span>: <span class="number">300px</span>;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">position</span>: absolute; <span class="comment">/** 若此处使用relative，父容器要BFC，同时注意此元素会在文档流中的占位。 **/</span></div><div class="line">		<span class="attribute">top</span>: <span class="number">50%</span>;</div><div class="line">		<span class="attribute">left</span>: <span class="number">50%</span>;</div><div class="line">		<span class="attribute">margin-top</span>: -<span class="number">50px</span>;   <span class="comment">/* 自身高度的一半*/</span></div><div class="line">		<span class="attribute">margin-left</span>: -<span class="number">50px</span>;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  如图 （ 同时设置了水平居中 ）</p>
+  <div style="position:relative;height:300px;background-color:grey;"><br>      <div style="position:absolute;top:50%;left:50%;margin-top:-50px;margin-left:-50px;height:100px;width:100px;background-color:yellow;"></div><br>  </div>    
+
+</li>
+</ul>
+<p><div id="7"></div></p>
+<h2 id="空div撑开"><a href="#空div撑开" class="headerlink" title="空div撑开"></a>空div撑开</h2><p>与 <a href="#6">6.负margin方式异曲同工</a>，常用于兼容性要求极为苛刻时（IE6），简单粗暴。</p>
+<ul>
+<li>优点：兼容性极佳，使用方式固定、简单。</li>
+<li><p>缺点：每次都要计算撑开的div容器值，不够灵活，空标签冗余，实现粗暴，不能撑开父容器，使用场景非常局限，<strong>不推荐使用</strong>。</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.container</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">height</span>: <span class="number">300px</span>;</div><div class="line">		<span class="attribute">background-color</span>: grey;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.filling</span> &#123;</div><div class="line">		<span class="attribute">height</span>: <span class="number">50%</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.center</span> &#123;</div><div class="line">		<span class="attribute">position</span>: absolute;</div><div class="line">		<span class="attribute">margin-top</span>: -<span class="number">50px</span>;   <span class="comment">/* 自身高度的一半*/</span></div><div class="line">		<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"filling"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>  如图 （ 仅展示垂直居中 ）<br>  <div style="position:relative;height:300px;background-color:grey;"><div style="height:50%;"></div><div style="position:absolute;margin-top:-50px;height:100px;width:100px;background-color:yellow;"></div></div>    </p>
+<h2 id="Flexbox"><a href="#Flexbox" class="headerlink" title="Flexbox"></a>Flexbox</h2></li>
+<li><p>优点：使用极其简单。</p>
+</li>
+<li>缺点：兼容性要求高现代浏览器&amp;IE10+，不能撑开父容器。</li>
+</ul>
+<hr>
+<p>参考资料：<br>我个人在百度前端学院课程中做的练习–&gt;<a href="https://nutlee.github.io/FrontendHandsome/stage1/1.4.html" target="_blank" rel="external">传送门</a><br><a href="http://web.jobbole.com/46574/" target="_blank" rel="external">如何只用CSS做到完全居中</a><br><a href="http://web.jobbole.com/83839/" target="_blank" rel="external">CSS 实现垂直居中的 5 种方法</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/06/10/关于网页中的垂直居中/"
+                    data-title="关于网页中的垂直居中"
+                    data-url="http://nutlee.space/2016/06/10/关于网页中的垂直居中/"
+                    data-images=""
+                    data-content="&nbsp;
+在网页制作中常会遇到水平居中和垂直居中的场景，相对而言，水平居中较简单，而垂直居... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/06/24/CSS中的BFC和Margin-Collapse/" data-toggle="tooltip" data-placement="top" title="CSS中的BFC和Margin Collapse">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/06/04/Demo&Product/" data-toggle="tooltip" data-placement="top" title="Demo & Product">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/06/10/关于网页中的垂直居中/"
+                        data-title="关于网页中的垂直居中"
+                        data-url="http://nutlee.space/2016/06/10/关于网页中的垂直居中/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+                        
+                          <a class="tag" href="/tags/#HTML" title="HTML">HTML</a>
+                        
+                          <a class="tag" href="/tags/#垂直居中" title="垂直居中">垂直居中</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

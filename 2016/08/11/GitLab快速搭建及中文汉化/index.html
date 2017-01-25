@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          GitLab快速搭建及中文汉化 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/08/11/GitLab快速搭建及中文汉化/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                          <a class="tag" href="/tags/#GitLab" title="GitLab">GitLab</a>
+                        
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                    <h1>GitLab快速搭建及中文汉化</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-08-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>新公司迟迟没有部署项目管理和版本控制工具，给经理建议过几次，迫于大家都在忙，那只有我这么一个闲人来动手了😄😄<br><a id="more"></a></p>
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p>先说句题外话，我在这之前虽然有用过 Ubuntu 的 VPS 但确实用过 Ubuntu 桌面版，所以一切都是摸索着来的，如有拙劣操作还请指正。至于为什么选 Ubuntu 做 GitLab 服务端而不是其他 Linux ……其实只是因为我觉着 Ubuntu（乌班图）比较好听 😂</p>
+<p>Ubuntu 桌面版安装不做展开，基本步骤：</p>
+<ul>
+<li>使用 Universal USB Installer 将 Ubuntu 镜像刻录进U盘</li>
+<li>电脑从U盘引导，按提示选则即可，和 Windows U盘安装相似</li>
+</ul>
+<p>最好准备好科学上网工具。</p>
+<h2 id="GitLab"><a href="#GitLab" class="headerlink" title="GitLab"></a>GitLab</h2><p>其实官网步骤很清楚也很简洁，<a href="https://about.gitlab.com/downloads/#ubuntu1604" target="_blank" rel="external">GitLab官网</a> &nbsp;&nbsp;&nbsp;<a href="https://www.gitlab.cc/downloads/#ubuntu1604" target="_blank" rel="external">GitLab 中文网</a></p>
+<p>此处需要注意的是，如果准备装下面的汉化包，请先到 <a href="https://gitlab.com/larryli/gitlab/tree/v8.9.0" target="_blank" rel="external">Larry Lixuan / GitLab 中文社区版</a> 查看代码 tag (注意是 tag 不是 branch) 确定汉化包支持的最新版本，因为通常情况下汉化包总会滞后于最新版本，所以请根据此决定安装版本。当然如果不需要汉化包直接选择最新版好了。</p>
+<h3 id="安装配置依赖项"><a href="#安装配置依赖项" class="headerlink" title="安装配置依赖项"></a>安装配置依赖项</h3><p>如想使用 Postfix 来发送邮件,在安装期间请选择’Internet Site’. 您也可以用 sendmai 或者<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/smtp.md" target="_blank" rel="external">配置SMTP服务</a>并<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/smtp.md#smtp-on-localhost" target="_blank" rel="external">使用SMTP发送邮件</a>。(此处可以随便设置，以后可以更改)</p>
+<p>在 Centos 6 和 7 系统上, 下面的命令将在系统防火墙里面开放HTTP和SSH端口。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install curl openssh-server ca-certificates <span class="built_in">postfix</span></div></pre></td></tr></table></figure>
+<h3 id="添加GitLab仓库-并安装到服务器上"><a href="#添加GitLab仓库-并安装到服务器上" class="headerlink" title="添加GitLab仓库,并安装到服务器上"></a>添加GitLab仓库,并安装到服务器上</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -sS http<span class="variable">s:</span>//packages.gitlab.<span class="keyword">com</span>/install/repositories/gitlab/gitlab-<span class="keyword">ce</span>/script.<span class="keyword">deb</span>.<span class="keyword">sh</span> | sudo bash</div><div class="line">sudo apt-<span class="built_in">get</span> install gitlab-<span class="keyword">ce</span></div></pre></td></tr></table></figure>
+<p>使用上述操作如果不配合科学上网是非常非常非常慢的，同时如果你不习惯使用命令管道的安装方式, 你可以在这里下载<a href="https://packages.gitlab.com/gitlab/gitlab-ce/install" target="_blank" rel="external">安装脚本</a>或者<a href="https://packages.gitlab.com/gitlab/gitlab-ce" target="_blank" rel="external">手动下载您使用的系统相应的安装包(RPM/Deb)</a> 然后安装。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -LJO http<span class="variable">s:</span>//packages.gitlab.<span class="keyword">com</span>/gitlab/gitlab-<span class="keyword">ce</span>/packages/ubuntu/xenial/gitlab-<span class="keyword">ce</span>-XXX.<span class="keyword">deb</span>/download</div><div class="line">dpkg -i gitlab-<span class="keyword">ce</span>-XXX.<span class="keyword">deb</span></div></pre></td></tr></table></figure>
+<p>另外，如果你选择在 Ubuntu 中使用浏览器手动下载上面提到的安装包（RPM/Deb），需要注意 Ubuntu 中浏览器默认会下载到 “下载（Download）”路径下，所以在进行手动安装时需要。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> 下载</div><div class="line">sudo dpkg -i gitlab-<span class="keyword">ce</span>-XXX.<span class="keyword">deb</span></div></pre></td></tr></table></figure>
+<h3 id="启动GitLab"><a href="#启动GitLab" class="headerlink" title="启动GitLab"></a>启动GitLab</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sudo gitlab-ctl reconfigure</span></div></pre></td></tr></table></figure>
+<h3 id="使用浏览器访问GitLab"><a href="#使用浏览器访问GitLab" class="headerlink" title="使用浏览器访问GitLab"></a>使用浏览器访问GitLab</h3><p>首次访问GitLab,系统会让你重新设置管理员的密码,设置成功后会返回登录界面。<br>管理员用户名和密码是</p>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">用户名：root</div><div class="line">密码：<span class="number">5</span>ivel!fe</div></pre></td></tr></table></figure>
+<p>如果一时忘记了访问地址，使用 vi 操作查看配置文件中的 external_url 字段能看到</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vi <span class="regexp">/etc/gi</span>tlab<span class="regexp">/gitlab.rb</span></div></pre></td></tr></table></figure>
+<p>同时修改 external_url 字段为本机 IP 可以实现局域网内都能访问到 GitLab web页面。<br>注：vi 的简单操作</p>
+<ul>
+<li>按 x 删除当前字符</li>
+<li>按 i 切换到插入状态</li>
+<li>按 dd 删除当前行</li>
+<li>按 esc 退出插入状态</li>
+<li>输入 :wq 按回车保存并退出 vi 状态</li>
+<li>输入 :q 按回车不保存直接退出 vi 状态</li>
+</ul>
+<p>至此，GitLab 的基本安装完毕，可以初步使用了，需要注意的是这只是最简化的安装步骤，对 gitlab.rb 中的各种配置并未深究。如果不需要汉化包可到此结束，感谢 ❤ </p>
+<h2 id="汉化包安装"><a href="#汉化包安装" class="headerlink" title="汉化包安装"></a>汉化包安装</h2><p>网上关于 GitLab 的中文汉化包教程很多，但截至到目前为止，我并没有找到一个确实可用的，可能是因为最近几个版本更新变化 ？以下是我的安装方法，绝对简单可用，来自网上各种方案的修改。</p>
+<h3 id="检测当前部署-GitLab-版本"><a href="#检测当前部署-GitLab-版本" class="headerlink" title="检测当前部署 GitLab 版本"></a>检测当前部署 GitLab 版本</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat <span class="regexp">/opt/gi</span>tlab<span class="regexp">/embedded/</span>service<span class="regexp">/gitlab-rails/</span>VERSION</div></pre></td></tr></table></figure>
+<p>根据这个版本到第二节中提到的 <a href="https://gitlab.com/larryli/gitlab/tree/v8.9.0" target="_blank" rel="external">Larry Lixuan / GitLab 中文社区版</a> 查看汉化是否支持，注意只要前两位版本号一致就好，如 v8.8.0 是支持 8.8.6 的。</p>
+<h3 id="克隆-GitLab-源代码仓库"><a href="#克隆-GitLab-源代码仓库" class="headerlink" title="克隆 GitLab 源代码仓库"></a>克隆 GitLab 源代码仓库</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 克隆 GitLab.com 仓库</span></div><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://gitlab.com/larryli/gitlab.git</div><div class="line">＃或 Gitcafe.com 镜像，速度更快</div><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://gitcafe.com/larryli/gitlab.git</div></pre></td></tr></table></figure>
+<p>建议使用 GitLab.com 吧，慢就慢点好在不是很大。</p>
+<h3 id="打上汉化补丁"><a href="#打上汉化补丁" class="headerlink" title="打上汉化补丁"></a>打上汉化补丁</h3><p>例如我使用的是 8.8.7 版本 查看后知道可以使用 v8.8.0 的汉化包 </p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> <span class="meta"># 注意要先进入克隆出来的 GitLab 文件夹里</span></div><div class="line"> cd gitlab</div><div class="line"> <span class="meta"># 也可以在这里查看 tag 版本</span></div><div class="line"> <span class="meta"># git tag</span></div><div class="line"> <span class="meta"># 比对不同，diff 结果便是汉化补丁</span></div><div class="line"> <span class="meta"># 注意此处比较的是 tag</span></div><div class="line">sudo git diff v8<span class="number">.8</span><span class="number">.0</span>.<span class="number">.8</span><span class="number">.8</span><span class="number">.0</span>.zh1 &gt; <span class="meta-keyword">/tmp/</span><span class="number">8.8</span>.diff</div><div class="line"> <span class="meta"># 停止 gitlab</span></div><div class="line">sudo gitlab-ctl stop[README](media/README.md)</div><div class="line"> <span class="meta"># 应用汉化补丁</span></div><div class="line">cd <span class="meta-keyword">/opt/</span>gitlab<span class="meta-keyword">/embedded/</span>service/gitlab-rails</div><div class="line">git apply <span class="meta-keyword">/tmp/</span><span class="number">8.8</span>.diff  </div><div class="line"> <span class="meta"># 启动gitlab</span></div><div class="line">sudo gitlab-ctl start</div></pre></td></tr></table></figure>
+<p></p><p style="color:red">注意！！！</p><br>这步操作<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo git diff v8<span class="number">.8</span><span class="number">.0</span>.....<span class="number">.8</span><span class="number">.8</span><span class="number">.0</span>.zh1 &gt; /tmp/<span class="number">8.8</span>.diff</div></pre></td></tr></table></figure><p></p>
+<p>网上一般都是<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo git diff origin/<span class="number">8</span><span class="number">-8</span>-stable.....<span class="number">.8</span><span class="number">-8</span>-zh &gt; /tmp/<span class="number">8.8</span>.diff</div></pre></td></tr></table></figure></p>
+<p>我认为理论上可行，远端仓库也确实有这两个分支，但不晓得为什么一直失败，希望有懂得的同学指教一下。<br>此处是我翻阅了N多网站，最后通过谷歌在一个角落里找到的，再次感谢谷歌 ❤  <a href="https://gitlab.com/larryli/gitlab/issues/25" target="_blank" rel="external">传送门</a></p>
+<p>现在打开配置的地址，就能看到 GitLab 已经是中文了。😁</p>
+<h2 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h2><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># Stop gitlab and remove its supervision process</span></div><div class="line">sudo gitlab-ctl uninstall</div><div class="line"></div><div class="line"><span class="meta"># Debian/Ubuntu</span></div><div class="line">sudo dpkg -r gitlab-ce</div><div class="line"></div><div class="line"><span class="meta"># Redhat/Centos</span></div><div class="line">sudo rpm -e gitlab-ce</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料：<br><a href="https://about.gitlab.com/downloads/#ubuntu1604" target="_blank" rel="external">GitLab 官网</a><br><a href="https://www.gitlab.cc/downloads/#ubuntu1604" target="_blank" rel="external">GitLab 中文网</a><br><a href="http://www.jianshu.com/p/7a0d6917e009" target="_blank" rel="external">快速安装GitLab并汉化</a><br><a href="https://gitlab.com/larryli/gitlab/wikis/home" target="_blank" rel="external">Larry / GitLab 中文社区版</a><br><a href="https://larryli.cn/2015/07/644905" target="_blank" rel="external">GitLab 汉化指南（安装/升级）</a><br><a href="https://doc.gitlab.cc/ce/README.html" target="_blank" rel="external">GitLab 中文文档</a><br><a href="http://blog.devzeng.com/blog/simple-usage-of-gitlab.html" target="_blank" rel="external">GitLab 的简单使用</a><br><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/smtp.md" target="_blank" rel="external">SMTP settings</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/08/11/GitLab快速搭建及中文汉化/"
+                    data-title="GitLab快速搭建及中文汉化"
+                    data-url="http://nutlee.space/2016/08/11/GitLab快速搭建及中文汉化/"
+                    data-images=""
+                    data-content="新公司迟迟没有部署项目管理和版本控制工具，给经理建议过几次，迫于大家都在忙，那只有我这么一个闲... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/08/14/GitLab服务端常用操作及配置更改/" data-toggle="tooltip" data-placement="top" title="GitLab服务端常用操作及配置更改">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/07/31/jQuery:Zepto自定义插件/" data-toggle="tooltip" data-placement="top" title="jQuery/Zepto自定义插件">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/08/11/GitLab快速搭建及中文汉化/"
+                        data-title="GitLab快速搭建及中文汉化"
+                        data-url="http://nutlee.space/2016/08/11/GitLab快速搭建及中文汉化/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                          <a class="tag" href="/tags/#GitLab" title="GitLab">GitLab</a>
+                        
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

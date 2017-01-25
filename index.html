@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Nutlee&#39;s Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">To Be A Idealism Developer!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/">
+        <h2 class="post-title">
+            GitHub/GitLab Webhook 实践
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            码农这个行业里前端是个另类，在大牛眼里前端“毫无难度”可言，在小白眼里前端炫酷的“所见即所得”。也许正是因为前端的低门槛、不需要什么复杂的开发环境甚至有“记事本”就能开发，以至于很多小公司的前端工程师从未正视过前端部署问题（包括我所在的公司）。小公司人力有限，所以多数小公司的技术团队配置都是后端居多，在后端眼里前端就切切页面然后往服务器丢一下就好了嘛。然而就是这个问题困扰了我很久，我一直觉着......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-12-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/">
+        <h2 class="post-title">
+            关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近看了 array_huang 的《webpack多页应用架构系列》颇有些感悟，加上入行两年多了，虽然自认为还算勤恳，奈何天赋过低，一直工作内容又“层次”不高，准确说是一直重复重复重复。直到这次跳槽以后，难得有段时间清闲，让我好好思考了一下关于前端工程化这个问题。
+本文先会先介绍前端工程化的相关理解，然后是对于 array_huang 的《webpack多页应用架构系列》个人做的一些修改及......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/09/25/CSS3-动画及两个简单的例子/">
+        <h2 class="post-title">
+            CSS3 动画及两个简单例子
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近公司前端部分没有那么急，下一步重点在微信端，所以我粗略看了下后面的业务需求，就打算研究一下移动端的 HTML5 页面的优雅展现。这就涉及到大量交互设计了，谈到交互就不得不说这两年大行其道的移动端各种动画，也就是俗称的各种 “H5”。得益于手机性能的大幅度提高，现在手机上至少对前端而言，性能瓶颈不是那么明显，当然，前端离不开浏览器（webview），所以总是有性能天花板了，要不然就真成 N......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-09-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/09/04/原生js和jQuery中的事件event/">
+        <h2 class="post-title">
+            原生js和jQuery中的事件event
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            关于原生 js 和 jQuery 的事件绑定，应该是绝大多数前端的基本功，但是关于 event 对象，其中又有很多细节是需要注意的，本文通过介绍 event 对象旨在优化事件处理效率。
+到底绑定在谁身上以 jQuery 为例，现在 jQuery 绑定事件官方推荐做法是使用 on ，所以一般绑定事件就是：
+1234$element.on('click', '.selector',functio......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-09-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/">
+        <h2 class="post-title">
+            shell增强术--iTem2+zsh+oh-my-zsh安装部署
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近 Node.js、Ubuntu、Git 都用的很多，疯狂的敲了很多命令，闲来无事面对 MacOS 自带的拙劣终端终于忍不了了，动手搞了 iTem2 + zsh + oh-my-zsh。网上此类资料很多，本文也没有什么特殊的，全当个人用来记录安装过程吧。
+shell？bash？zsh？终端？关于这几者的区别，我看到网上一个说法很好，shell 是“抽象类”，bash、zsh 都是“类的实例......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-08-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/28/基于express的前端开发环境/">
+        <h2 class="post-title">
+            基于express的前端开发环境
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            express-gulp-browsersync
+自动打包自动刷新 mock 环境，GitHub仓库。
+集成了 express ejs mock.js 等
+
+使用环境
+准备
+
+全局安装 gulp
+1npm install gulp -g
+
+下载所有文件
+1npm install
+
+
+
+开发环境
+
+首次运行
+1gulp lib-init
+
+运行
+1gulp
+
+
+
+生产环境
+
+直接强制打包
+1g......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-08-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/14/GitLab(Git)的初次使用/">
+        <h2 class="post-title">
+            GitLab(Git)的初次使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文以我部署好 GitLab 服务端后的初次使用过程为例，以一个完全没接触过 Git 的团队成员视角及顺序，介绍第一次使用 GitLab 时需要注意的地方，故文中夹杂了 Git 操作。后续会推出 GitLab Web 部分的操作教程。
+GitGit 与 SVN 等工具最大的区别就是代码库是分布式，分支切换、版本回退都是指针操作，效率很高，同时当团队成员很多、代码量庞大的时候，性能也非常优秀。......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-08-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/14/GitLab服务端常用操作及配置更改/">
+        <h2 class="post-title">
+            GitLab服务端常用操作及配置更改
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            此文用来记录 GitLab 服务端的常用操作和配置文件的修改
+持续更新中 …………………………
+常用操作
+停止
+
+1sudo gitlab-ctl stop
+
+启动
+
+1sudo gitlab-ctl start
+
+修改配置文件后重新部署
+
+1sudo gitlab-ctl reconfigure
+
+修改配置文件
+
+1sudo vi /etc/gitlab/gitlab.rb
+配置文件修改访......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-08-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/11/GitLab快速搭建及中文汉化/">
+        <h2 class="post-title">
+            GitLab快速搭建及中文汉化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            新公司迟迟没有部署项目管理和版本控制工具，给经理建议过几次，迫于大家都在忙，那只有我这么一个闲人来动手了😄😄
+Ubuntu先说句题外话，我在这之前虽然有用过 Ubuntu 的 VPS 但确实用过 Ubuntu 桌面版，所以一切都是摸索着来的，如有拙劣操作还请指正。至于为什么选 Ubuntu 做 GitLab 服务端而不是其他 Linux ……其实只是因为我觉着 Ubuntu（乌班图）比较......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-08-11
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/07/31/jQuery:Zepto自定义插件/">
+        <h2 class="post-title">
+            jQuery/Zepto自定义插件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            jQuery/Zepto 自定义插件，如下示例是一个表单验证插件，持续更新中….
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Nutlee on
+        2016-07-31
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#float" title="float" rel="2">float</a>
+                            
+                        
+                            
+                            <a href="/tags/#CSS" title="CSS" rel="6">CSS</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#代码规范" title="代码规范" rel="3">代码规范</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Node.js" title="Node.js" rel="3">Node.js</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Ubuntu" title="Ubuntu" rel="3">Ubuntu</a>
+                            
+                        
+                            
+                            <a href="/tags/#GitLab" title="GitLab" rel="3">GitLab</a>
+                            
+                        
+                            
+                            <a href="/tags/#Git" title="Git" rel="3">Git</a>
+                            
+                        
+                            
+                            <a href="/tags/#JavaScript" title="JavaScript" rel="8">JavaScript</a>
+                            
+                        
+                            
+                            <a href="/tags/#HTML" title="HTML" rel="4">HTML</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#前端工具" title="前端工具" rel="2">前端工具</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/img/avatar.jpg" />
+                        
+
+                        
+                            <p>我要成为魔法师!</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                                <li>
+                                    <a href="/feed.xml">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://twitter.com/lixuanyy">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/2428652292">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/Nutlee">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+                <hr><h5>STATISTICS</h5>
+                <span id="busuanzi_container_site_uv">
+                您是本站的第 <span id="busuanzi_value_site_uv"></span> 位访客
+                </span>
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

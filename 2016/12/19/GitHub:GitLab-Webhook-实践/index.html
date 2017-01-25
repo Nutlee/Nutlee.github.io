@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          GitHub/GitLab Webhook 实践 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/12/19/GitHub:GitLab-Webhook-实践/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                          <a class="tag" href="/tags/#GitHub" title="GitHub">GitHub</a>
+                        
+                          <a class="tag" href="/tags/#前端部署" title="前端部署">前端部署</a>
+                        
+                    </div>
+                    <h1>GitHub/GitLab Webhook 实践</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-12-19
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>码农这个行业里前端是个另类，在大牛眼里前端“毫无难度”可言，在小白眼里前端炫酷的“所见即所得”。也许正是因为前端的低门槛、不需要什么复杂的开发环境甚至有“记事本”就能开发，以至于很多小公司的前端工程师从未正视过前端部署问题（包括我所在的公司）。<br>小公司人力有限，所以多数小公司的技术团队配置都是后端居多，在后端眼里前端就切切页面然后往服务器丢一下就好了嘛。然而就是这个问题困扰了我很久，我一直觉着这样 FTP 的方式往服务器拖前端内容“非常傻”，又苦于没有太好的思路和解决方案（其实主要受制于不懂后端🌚）。<br>直到…….看到了 Webhook …..<br><a id="more"></a></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>其实网上这类教程很多了，但是多数写的都是思路和大概的流程，毕竟咱都是小白爬上来的，深知宝宝们心里有多苦😢，所以本文就详细说一下吧。</p>
+<p>基本原理是后端开一个单独的端口跑一个服务器，只监听固定的接口请求（A接口），通过 GitHub 的 Webhook 功能关联上此接口，这样每次向 GitHub 提交东西都是自动发出一个 post 请求到 A 接口，A接口收到 post 会执行一个 shell 脚本，自动通过 Git 方式拉取 GitHub 上的静态资源（HTML、CSS、JS）</p>
+<p>所以分解一下就是三个过程</p>
+<ol>
+<li>目标位置创建 Git 仓库</li>
+<li>shell 脚本</li>
+<li>服务端监听接口post（Node、PHP等后端语言均可），GitHub/GitLab 开启 Webhook</li>
+</ol>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>以 Node.js 的后端环境为例，假设正式服务器是基于 <code>express</code> 在 /root 目录下创建 testWebhook 项目</p>
+<h3 id="目标位置创建-Git-仓库"><a href="#目标位置创建-Git-仓库" class="headerlink" title="目标位置创建 Git 仓库"></a>目标位置创建 Git 仓库</h3><p>首先你要在你想要需要部署静态资源的位置创建 Git 仓库，这里可以直接使用 <code>git clone</code> 去直接 <code>clone</code> 并关联，不推荐 <code>git init</code> 再 <code>git remote add</code>，因为对于此处而言只是要不断的 <strong>检出</strong> 新版本，并不需要对远端仓库有什么提交性质的操作。具体的作用看下一步的 shell 脚本就明白了。</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /root/<span class="built_in">test</span>Webhook/public</div><div class="line"></div><div class="line">git <span class="built_in">clone</span> git@github.com:***/***.git</div></pre></td></tr></table></figure>
+<h3 id="shell-脚本"><a href="#shell-脚本" class="headerlink" title="shell 脚本"></a>shell 脚本</h3><p>新建 deploy.sh 内容如下，主要功能就是 GitHub post 过来的时候，目标路径去远端的 Git 仓库更新代码并 <code>checkout</code> 最新版本 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">WEB_PATH=<span class="string">'/root/testWebhook/public/testWebhook'</span></div><div class="line">WEB_USER=<span class="string">'root'</span></div><div class="line">WEB_USERGROUP=<span class="string">'root'</span></div><div class="line"> </div><div class="line"><span class="built_in">echo</span> <span class="string">"Start deployment"</span></div><div class="line"><span class="built_in">cd</span> <span class="variable">$WEB_PATH</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"pulling source code..."</span></div><div class="line">git reset --hard origin/master</div><div class="line">git clean <span class="_">-f</span></div><div class="line">git pull</div><div class="line">git checkout master</div><div class="line"><span class="built_in">echo</span> <span class="string">"changing permissions..."</span></div><div class="line">chown -R <span class="variable">$WEB_USER</span>:<span class="variable">$WEB_USERGROUP</span> <span class="variable">$WEB_PATH</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Finished."</span></div></pre></td></tr></table></figure>
+<h3 id="开启服务器监听-post"><a href="#开启服务器监听-post" class="headerlink" title="开启服务器监听 post"></a>开启服务器监听 post</h3><p>创建一个简单的 Node 服务器，只监听 GitHub Webhook，每次接口被触发的时候执行本地 deploy.sh，具体步骤如下：</p>
+<ul>
+<li><p>初始化 <code>npm</code>，然后本地安装 <code>github-webhook-handler</code> 中间件，用来配置 GitHub Webhook ，此插件可以配置 <code>secret</code> 参数，这个参数是用来验证接口安全的，具体后面再说。</p>
+<p> 其实这个地方很多教程都说要全局安装 <code>github-webhook-handler</code>，可是我实在不明白为什么要全局安装，而且我尝试过全局安装 require 的时候会提示模块不存在，还请知道的同学指点一二。</p>
+ <figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">npm init </div><div class="line">npm install github-webhook-handler --save-dev</div><div class="line"><span class="comment"># GitLab 中</span></div><div class="line"><span class="comment"># npm install gitlab-webhook-handler --save-dev</span></div></pre></td></tr></table></figure>
+<p> 你甚至可以将上一步的 shell 也放在这个文件夹中，方便统一管理。</p>
+</li>
+<li><p>开启服务器监听 post</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"><span class="keyword">var</span> createHandler = <span class="built_in">require</span>(<span class="string">'github-webhook-handler'</span>)</div><div class="line"><span class="comment">// GitLab 中</span></div><div class="line"><span class="comment">// var createHandler = require('gitlab-webhook-handler')</span></div><div class="line"><span class="keyword">var</span> handler = createHandler(&#123; <span class="attr">path</span>: <span class="string">'/testwebhook'</span>, <span class="attr">secret</span>: <span class="string">'testwebhook'</span> &#125;) </div><div class="line"><span class="comment">// 上面的 secret 保持和 GitHub 后台设置的一致</span></div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">run_cmd</span>(<span class="params">cmd, args, callback</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> spawn = <span class="built_in">require</span>(<span class="string">'child_process'</span>).spawn;</div><div class="line">  <span class="keyword">var</span> child = spawn(cmd, args);</div><div class="line">  <span class="keyword">var</span> resp = <span class="string">""</span>;</div><div class="line"> </div><div class="line">  child.stdout.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">buffer</span>) </span>&#123; resp += buffer.toString(); &#125;);</div><div class="line">  child.stdout.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; callback (resp) &#125;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">    handler(req, res, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">        res.statusCode = <span class="number">404</span></div><div class="line">        res.end(<span class="string">'no such location'</span>)</div><div class="line">    &#125;)</div><div class="line">&#125;).listen(<span class="number">7777</span>)</div><div class="line"> </div><div class="line">handler.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.error(<span class="string">'Error:'</span>, err.message)</div><div class="line">&#125;)</div><div class="line"> </div><div class="line">handler.on(<span class="string">'push'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Received a push event for %s to %s'</span>,</div><div class="line">    event.payload.repository.name,</div><div class="line">    event.payload.ref);</div><div class="line">  run_cmd(<span class="string">'sh'</span>, [<span class="string">'./deploy.sh'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123; <span class="built_in">console</span>.log(text) &#125;);</div><div class="line">  <span class="comment">// 此处相对路径必须 './' 开头</span></div><div class="line">&#125;)</div><div class="line"> </div><div class="line"><span class="comment">/*</span></div><div class="line">handler.on('issues', function (event) &#123;</div><div class="line">  console.log('Received an issue event for % action=%s: #%d %s',</div><div class="line">    event.payload.repository.name,</div><div class="line">    event.payload.action,</div><div class="line">    event.payload.issue.number,</div><div class="line">    event.payload.issue.title)</div><div class="line">&#125;)</div><div class="line">*/</div></pre></td></tr></table></figure>
+<p>  写好就可以启动了</p>
+  <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#启动监听</span></div><div class="line"><span class="keyword">node</span> <span class="title">deploy</span>.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>GitHub/GitLab 中的设置</p>
+<p>  在 GitHub 中点击仓库的 Settings/Webhooks，如图</p>
+<p>  <img src="http://7xs1z3.com1.z0.glb.clouddn.com/github_webhook.png" alt=""></p>
+<p>  <strong>PlayloadURL</strong> 上填你的服务器IP+端口+接口，如“ <a href="http://192.168.0.1:3000/testwebhook" target="_blank" rel="external">http://192.168.0.1:3000/testwebhook</a> ”<br><strong>Secret</strong> 填约定密钥，这样保证只有你从 GitHub 往你的服务器 Post 时是可信赖的。</p>
+<p>  填好后，GitHub 就立即 Post，你可以看到是否成功，如果显示为一个红色的 ”X“ ，那就要排查一下是不是哪里错了，通常都是 deploy.js 或者 deploy.sh 中的路径错误。</p>
+<p>  如果你使用的 GitLab，设置基本相同。</p>
+</li>
+</ul>
+<h2 id="补充黑科技"><a href="#补充黑科技" class="headerlink" title="补充黑科技"></a>补充黑科技</h2><p>用 Node 的同学应该都会遇到和我一样的困惑，这个 Node 每次启动了都是前台运行啊，那岂不是我的 bash 一直不能关闭，一直开着？？当然不是！这就要祭出 Linux 上常用到的黑科技了 —- <strong>forever</strong> 进程守护了</p>
+<p>简单说 forever 可以挂起任务，让它们后台运行，使用也很简单</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安装</span></div><div class="line">$ npm install -g forever</div><div class="line"><span class="comment"># forever 列表</span></div><div class="line">$ forever list</div><div class="line"><span class="comment"># 启动</span></div><div class="line">$ forever deploy.js</div><div class="line"><span class="comment"># 根据列表中的 pid 结束任务</span></div><div class="line">$ forever stop pid</div><div class="line"><span class="comment"># 重启</span></div><div class="line">$ forever restart pid</div><div class="line"><span class="comment"># 重启</span></div><div class="line">$ forever restartall</div></pre></td></tr></table></figure>
+<h2 id="再次补充说明"><a href="#再次补充说明" class="headerlink" title="再次补充说明"></a>再次补充说明</h2><p>如果用 CentOS6 的同学连不通的时候注意一下防火墙是否开放了端口，操作如下</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 开放7000端口</span></div><div class="line">$ /sbin/iptables -I INPUT -p tcp --dport 7000 -j ACCEPT</div><div class="line"><span class="comment"># 保存</span></div><div class="line">$ /etc/init.d/iptables save</div><div class="line"><span class="comment"># 查看端口状态     </span></div><div class="line">$ /etc/init.d/iptables status</div><div class="line"><span class="comment"># 重启防火墙</span></div><div class="line">$ /etc/init.d/iptables restart</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/Nutlee/WebhookConfig" target="_blank" rel="external">上述配置文件地址</a></p>
+<hr>
+<p>参考资料：</p>
+<p><a href="http://www.lovelucy.info/auto-deploy-website-by-webhooks-of-github-and-gitlab.html" target="_blank" rel="external">使用 GitHub / GitLab 的 Webhooks 进行网站自动化部署</a><br><a href="http://jerryzou.com/posts/webhook-practice/" target="_blank" rel="external">Webhook 实践 —— 自动部署</a><br><a href="http://www.jianshu.com/p/e4cacd775e5b" target="_blank" rel="external">利用Github的Webhook功能和Node.js完成项目的自动部署</a><br><a href="http://www.awaimai.com/1650.html" target="_blank" rel="external">CentOS防火墙开放和关闭端口（iptables）</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/12/19/GitHub:GitLab-Webhook-实践/"
+                    data-title="GitHub/GitLab Webhook 实践"
+                    data-url="http://nutlee.space/2016/12/19/GitHub:GitLab-Webhook-实践/"
+                    data-images=""
+                    data-content="码农这个行业里前端是个另类，在大牛眼里前端“毫无难度”可言，在小白眼里前端炫酷的“所见即所得”... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/" data-toggle="tooltip" data-placement="top" title="关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/12/19/GitHub:GitLab-Webhook-实践/"
+                        data-title="GitHub/GitLab Webhook 实践"
+                        data-url="http://nutlee.space/2016/12/19/GitHub:GitLab-Webhook-实践/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                          <a class="tag" href="/tags/#GitHub" title="GitHub">GitHub</a>
+                        
+                          <a class="tag" href="/tags/#前端部署" title="前端部署">前端部署</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

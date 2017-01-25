@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          CSS中的BFC和Margin Collapse - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/06/24/CSS中的BFC和Margin-Collapse/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+                        
+                          <a class="tag" href="/tags/#BFC" title="BFC">BFC</a>
+                        
+                          <a class="tag" href="/tags/#margin合并" title="margin合并">margin合并</a>
+                        
+                          <a class="tag" href="/tags/#margin塌陷" title="margin塌陷">margin塌陷</a>
+                        
+                    </div>
+                    <h1>CSS中的BFC和Margin Collapse</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-06-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>众所周知，CSS中的一些知识点都非常琐碎的，这其中关于BFC的部分又是非常基础且非常重要的，下面对BFC从实用角度展开介绍。<br><a id="more"></a></p>
+<h2 id="什么BFC"><a href="#什么BFC" class="headerlink" title="什么BFC"></a>什么BFC</h2><p>Formatting Context：指页面中的一个渲染区域，并且拥有一套渲染规则，他决定了其子元素如何定位，以及与其他元素的相互关系和作用。</p>
+<p>BFC：块级格式化上下文，通过CSS属性构造的独立渲染区域，只有Block-level Box参与，该区域拥有一套渲染规则来约束块级盒子的布局，且与区域外部无关。</p>
+<h3 id="产生条件"><a href="#产生条件" class="headerlink" title="产生条件"></a>产生条件</h3><p>CSS2.1中规定满足下列CSS声明之一的元素便会生成BFC:</p>
+<ul>
+<li>根元素</li>
+<li>float的值不为none</li>
+<li>overflow的值不为visible</li>
+<li>display的值为inline-block、table-cell、table-caption</li>
+<li>position的值为absolute或fixed</li>
+</ul>
+<p>另： display：table也认为可以生成BFC，在于table会默认生成一个匿名的table-cell。</p>
+<h3 id="约束规则"><a href="#约束规则" class="headerlink" title="约束规则"></a>约束规则</h3><p>浏览器对于BFC这块区域的约束规则如下：</p>
+<ul>
+<li>生成BFC元素的子元素会一个接一个的放置。垂直方向上他们的起点是一个包含块的顶部，两个相邻子元素之间的垂直距离取决于元素的margin特性。在BFC中相邻的块级元素外边距会折叠。</li>
+<li>生成BFC元素的子元素中，每一个子元素做外边距与包含块的左边界相接触，（对于从右到左的格式化，右外边距接触右边界），即使浮动元素也是如此（尽管子元素的内容区域会由于浮动而压缩），除非这个子元素也创建了一个新的BFC（如它自身也是一个浮动元素）。</li>
+</ul>
+<p>因此我也可以这么说</p>
+<ul>
+<li>内部的Box会在垂直方向上一个接一个的放置。</li>
+<li>垂直方向上的距离由margin决定。（完整的说法是：属于同一个BFC的两个相邻Box的margin会发生重叠，与方向无关。）</li>
+<li>每个元素的左外边距与包含块的左边界相接触（从左向右），即使浮动元素也是如此。（这说明BFC中子元素不会超出他的包含块，而position为absolute的元素可以超出他的包含块边界）</li>
+<li>BFC的区域不会与float的元素区域重叠。</li>
+<li>计算BFC的高度时，浮动子元素也参与计算，即：可以撑开容器。</li>
+<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面元素，反之亦然。</li>
+</ul>
+<h2 id="什么是Margin-Collapse"><a href="#什么是Margin-Collapse" class="headerlink" title="什么是Margin Collapse"></a>什么是Margin Collapse</h2><p>Margin塌陷、合并、折叠。</p>
+<p>即两个相邻盒子的Margin发生合并，两个盒子可能是父子、同辈关系。</p>
+<h3 id="产生条件-1"><a href="#产生条件-1" class="headerlink" title="产生条件"></a>产生条件</h3><p>根据w3c规范，两个margin是邻接的必须满足以下条件：</p>
+<ul>
+<li>必须是处于常规文档流（非float和绝对定位）的块级盒子,并且处于同一个BFC当中。</li>
+<li>没有线盒，没有空隙（clearance，下面引用的资料里有详细说明。），没有padding和border将他们分隔开。</li>
+<li>都属于垂直方向上相邻的外边距，可以是下面任意一种情况：<ul>
+<li>元素的margin-top与其第一个常规文档流的子元素的margin-top</li>
+<li>元素的margin-bottom与其下一个常规文档流的兄弟元素的margin-top</li>
+<li>height为auto的元素的margin-bottom与其最后一个常规文档流的子元素的margin-bottom</li>
+<li>高度为0并且最小高度也为0，不包含常规文档流的子元素，并且自身没有建立新的BFC的元素的margin-top和margin-bottom</li>
+</ul>
+</li>
+</ul>
+<h3 id="形成分析"><a href="#形成分析" class="headerlink" title="形成分析"></a>形成分析</h3><p>总体上说是两点，BFC和clearance（ 间隙 ）。</p>
+<ul>
+<li>创建了新的BFC的元素（例如浮动元素或者’overflow’值为’visible’以外的元素）与它的子元素的外边距不会折叠。</li>
+<li>浮动元素不与任何元素的外边距产生折叠（包括其父元素和子元素）。</li>
+<li>绝对定位元素不与任何元素的外边距产生折叠。</li>
+<li>inline-block元素不与任何元素的外边距产生折叠。</li>
+<li>一个常规文档流元素的margin-bottom与它下一个常规文档流的兄弟元素的margin-top会产生折叠，除非它们之间存在间隙（clearance）。</li>
+<li>一个常规文档流元素的margin-top 与其第一个常规文档流的子元素的margin-top产生折叠，条件为父元素不包含 padding 和 border ，子元素不包含 clearance。</li>
+<li>一个 ‘height’ 为 ‘auto’ 并且 ‘min-height’ 为 ‘0’的常规文档流元素的 margin-bottom 会与其最后一个常规文档流子元素的 margin-bottom 折叠，条件为父元素不包含 padding 和 border ，子元素的 margin-bottom 不与包含 clearance 的 margin-top 折叠。</li>
+<li>一个不包含border-top、border-bottom、padding-top、padding-bottom的常规文档流元素，并且其 ‘height’ 为 0 或 ‘auto’， ‘min-height’ 为 ‘0’，其里面也不包含行盒(line box)，其自身的 margin-top 和 margin-bottom 会折叠。</li>
+</ul>
+<h3 id="合并结果："><a href="#合并结果：" class="headerlink" title="合并结果："></a>合并结果：</h3><ul>
+<li>两个相邻的外边距都是正数时，折叠结果是它们两者之间较大的值。</li>
+<li>两个相邻的外边距都是负数时，折叠结果是两者绝对值的较大值。</li>
+<li>两个外边距一正一负时，折叠结果是两者的相加的和。</li>
+</ul>
+<h3 id="解决Margin-Collapse"><a href="#解决Margin-Collapse" class="headerlink" title="解决Margin Collapse"></a>解决Margin Collapse</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>显然，根据BFC相关知识可以解释很多CSS的知识点，如</p>
+<ul>
+<li>overflow、absolute、float可以用来清除浮动</li>
+</ul>
+<p>因此深入了解BFC对HTML+CSS基础非常重要，可以这么说，绝大多数的CSS书写都是按照BFC规则来的，因此构造BFC也是多数情况下CSS书写的 <strong>最彻底方案</strong> ，从我个人的经验来说，很多怪异的样式问题尝试<strong>构造BFC</strong>都能解决，当然学习本身就是一个不停实践不停试错的过程，以下是利用BFC解决的常见问题，不做深入解读。</p>
+<ul>
+<li>解决Margin Collapse (Margin合并的元素其一BFC就可解决，不仅限于用这个来解决)</li>
+<li>清除浮动</li>
+<li>多栏布局</li>
+</ul>
+<hr>
+<p>参考资料：<br><a href="http://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html" target="_blank" rel="external">深入理解BFC和Margin Collapse</a>尤其是此文有对 <a href="https://www.w3.org/TR/CSS2/visuren.html#clearance" target="_blank" rel="external">clearance</a> 小间隙的细致说明<br><a href="http://www.cnblogs.com/dojo-lzz/p/3999013.html" target="_blank" rel="external">我对BFC的理解</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/06/24/CSS中的BFC和Margin-Collapse/"
+                    data-title="CSS中的BFC和Margin Collapse"
+                    data-url="http://nutlee.space/2016/06/24/CSS中的BFC和Margin-Collapse/"
+                    data-images=""
+                    data-content="众所周知，CSS中的一些知识点都非常琐碎的，这其中关于BFC的部分又是非常基础且非常重要的，下... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/07/24/原生js事件监听和一次事件/" data-toggle="tooltip" data-placement="top" title="原生js事件监听和一次事件">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/06/10/关于网页中的垂直居中/" data-toggle="tooltip" data-placement="top" title="关于网页中的垂直居中">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/06/24/CSS中的BFC和Margin-Collapse/"
+                        data-title="CSS中的BFC和Margin Collapse"
+                        data-url="http://nutlee.space/2016/06/24/CSS中的BFC和Margin-Collapse/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#CSS" title="CSS">CSS</a>
+                        
+                          <a class="tag" href="/tags/#BFC" title="BFC">BFC</a>
+                        
+                          <a class="tag" href="/tags/#margin合并" title="margin合并">margin合并</a>
+                        
+                          <a class="tag" href="/tags/#margin塌陷" title="margin塌陷">margin塌陷</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

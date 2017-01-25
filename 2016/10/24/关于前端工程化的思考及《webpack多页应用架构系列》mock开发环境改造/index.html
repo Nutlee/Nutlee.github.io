@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                          <a class="tag" href="/tags/#mock" title="mock">mock</a>
+                        
+                    </div>
+                    <h1>关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2016-10-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>最近看了 <a href="https://segmentfault.com/u/array_huang" target="_blank" rel="external">array_huang</a> 的<a href="https://segmentfault.com/a/1190000006843916" target="_blank" rel="external">《webpack多页应用架构系列》</a>颇有些感悟，加上入行两年多了，虽然自认为还算勤恳，奈何天赋过低，一直工作内容又“层次”不高，准确说是一直重复重复重复。直到这次跳槽以后，难得有段时间清闲，让我好好思考了一下关于前端工程化这个问题。<br><a id="more"></a></p>
+<p>本文先会先介绍前端工程化的相关理解，然后是对于 <a href="https://segmentfault.com/u/array_huang" target="_blank" rel="external">array_huang</a> 的<a href="https://segmentfault.com/a/1190000006843916" target="_blank" rel="external">《webpack多页应用架构系列》</a>个人做的一些修改及补充。</p>
+<p>才疏学浅，如有冒犯，通知即删，如有纰漏，还请指正，谢谢❤️</p>
+<h2 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h2><p>首先，前端工程化是什么？</p>
+<p>做过后端的同学都会明白，对于一个再弱小的项目而言，后端架构都是要斟酌一番的，区别只是说架构复杂还是简单。然而，对于 “年轻” 的前端而言，每个人都是从手写 HTML、CSS、JavaScript 开始的，甚至说如果你不进一个 “像样的” 公司，你有可能一辈子都在庸庸碌碌的手写这 ”三驾马车”，项目中各种页面各种第三方库随意引用，各种代码不断重复手写，然后严重后端依赖 “套页面”。</p>
+<p>因此前端工程化广义上是包括前端架构的，当然除此之外还包括前端 UI 的组件化复用、自动构建、自动化打包和自动化测试等一系列的流程设计。</p>
+<p>前端工程化有什么用呢？</p>
+<p>首先要强调的是前端工程化是为了项目的可维护性，换言之，并不是必不可少的，不工程化全手写用到什么功能引什么插件行不行？可以，但是这也就意味着你要么是做的一个 “万年不会更新” 的网页，要么说明你们的项目严重依赖后端。也就是说对于一个需要长期维护并且设计的就是前后端分离的项目而言，前端工程化基本上是必须的。</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>使用 CommonJS/AMD/CMD 来高度抽象代码逻辑和依赖关系，最典型和最简单的使用就是 <a href="http://requirejs.org/" target="_blank" rel="external">require.js</a>，具体变现为摒弃了传统的页面 js 堆砌方式，只通过一个 js 文件（入口文件），其中使用 CommonJS/AMD/CMD 来定义、暴露js 接口，同时显式的引用、管理依赖。</p>
+<p>引用 GitHub 上一位开发者说的</p>
+<blockquote>
+<p>很多人觉得模块化开发的工程意义是复用，我不太认可这种看法，在我看来，模块化开发的最大价值应该是分治，是分治，分治！（重说三）。</p>
+<p>不管你将来是否要复用某段代码，你都有充分的理由将其分治为一个模块。</p>
+</blockquote>
+<p>个人理解模块化最重要的几点优势</p>
+<ul>
+<li>按需加载</li>
+<li>按层抽象</li>
+<li>作用域隔离</li>
+<li>依赖隔离</li>
+</ul>
+<p>关于 CommonJS/AMD/CMD 等规范及模块化的更多知识，可以看阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">《Javascript模块化编程》系列</a></p>
+<h3 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h3><p>此处所谓的组件化并不是简单粗暴的像传统的 jQuery 插件那种一个 css 、一个高度封装的 js ，页面用到时直接引用。而是组件作为一个完整的个体从 UI 到交互都可以独立展示，然后通常利用模板/CommonJS 等特性来拼装加载的，从构建出来的项目上看是毫无痕迹的。</p>
+<p>另外就我个人的理解，组件化是离不开模块化这个前提的，基本上一个好的组件也一定是模块化的。模块化是对资源加载的优化，组件化侧重对整个业务逻辑的整理和掌控。</p>
+<p>特点</p>
+<blockquote>
+<p>“资源高内聚”—— 组件资源内部高内聚，组件资源由自身加载控制<br>“作用域独立”—— 内部结构密封，不与全局或其他组件产生影响<br>“自定义标签”—— 定义组件的使用方式<br>“可相互组合”—— 组件正在强大的地方，组件间组装整合<br>“接口规范化”—— 组件接口有统一规范，或者是生命周期的管理</p>
+</blockquote>
+<p>web组件化，最简单的例子就是真阿当老师慕课网的教程<a href="http://www.imooc.com/learn/99" target="_blank" rel="external">阿当大话西游之WEB组件</a>，虽然有点年头但对理解组件化非常好。</p>
+<p>所以整体上讲，按我个人的浅显的理解，前端工程化离不开 UI 分割、静态资源加载优化、功能组件化分割，自动化这么几部分。</p>
+<p>当然还有关于测试、代码审查、持续集成等等这部分就扯远了。</p>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>简言之 webpack 是一个优雅的模块化加载工具，你可以用它来加载几乎所有的静态资源，把所有引用的加载全部聚合到 js 里，维护性大大增强。</p>
+<p>关于 webpack 的基本参数和基本教程就不赘述了，具体可以看  <a href="https://segmentfault.com/u/array_huang" target="_blank" rel="external">array_huang</a> 的<a href="https://segmentfault.com/a/1190000006863968" target="_blank" rel="external">webpack多页应用架构系列（二）：webpack配置常用部分有哪些？</a></p>
+<p>这里引用下原作者该项目解决的痛点</p>
+<blockquote>
+<p>SPA好复杂，我还是喜欢传统的多页应用怎么破？又或是，我司项目需要后端渲染，页面模板怎么出？<br>每个页面相同的UI布局好难维护，UI稍微改一点就要到每个页面去改，好麻烦还容易漏，怎么破？<br>除js外的资源如css/less、图片、swf、字体等，要怎么打包呢？不然老是要外部引用，迁移、部署起来都好麻烦呢。<br>某些年久失修的jQuery插件怎么在webpack里使用呢？<br>能不能整合进ESLint来检查语法？<br>能不能整合postcss来加强浏览器兼容性？<br>部署代码的时候如何清除用户浏览器遗留下来的上个版本的缓存？</p>
+</blockquote>
+<p>稍微补充下几个容易产生小困惑的地方 </p>
+<ul>
+<li><p>entry 的参数 publicPath</p>
+<p>  在部署时需要改为公网地址，如果使用 webpack-dev-server 无法局域网访问，尽量不要改这里，去修改 webpack-dev-server 的 host/publicPath。</p>
+</li>
+<li><p>entry 的 hash 和 chunkhash 区别</p>
+<p>  hash 是整个 webpack 编译时产生的一个共用 hash，chunkhash 是对应的 chunk 修改时产生的 hash。换句话说如果静态资源 a.js、b.js，不管修改哪一个，他们对应的都是相同的 hash，其中任一个发生改动两者的 hash 都会相同变化。而 chunkhash 则只和 chunk 本身是否改动有关，通常也是不同的。</p>
+</li>
+<li><p>entry 的参数 chunkFilename</p>
+<p>  这个参数是为了将 CommonJS 中按需加载的 js 单独插入 script 标签引用的，即对使用 require.ensure 引用的依赖的命名规则，可以使用 ‘[name][hash:5].js’ 这种值。</p>
+</li>
+<li><p>html-webpack-plugin 插件</p>
+<p>  html-webpack-plugin 的参数中，原作者通过遍历 entry 中的 chunk 数组，实现批量拼装模板，这其中 </p>
+  <figure class="highlight tcl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">filename</span>: `$&#123;page&#125;/page.html`</div><div class="line"><span class="comment"># 等同于 </span></div><div class="line"><span class="keyword">filename</span>: page+<span class="string">'/page.html'</span></div></pre></td></tr></table></figure>
+<p>  是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings" target="_blank" rel="external">ES6 的模板字符串</a>，类似 Linux bash/shell 命令中反引号、大括号的用法。使用反引号 (<code> </code>) 来代替普通字符串中的用双引号和单引号，使用特定语法(${expression})作占位符。</p>
+</li>
+</ul>
+<h3 id="《webpack多页应用架构系列》的一些深入理解"><a href="#《webpack多页应用架构系列》的一些深入理解" class="headerlink" title="《webpack多页应用架构系列》的一些深入理解"></a>《webpack多页应用架构系列》的一些深入理解</h3><p>一直以来都以为 webpack 只适合单页应用或者 React/Angular 用，直到我发现了 <a href="https://segmentfault.com/u/array_huang" target="_blank" rel="external">array_huang</a> 的 <a href="https://github.com/Array-Huang/webpack-seed" target="_blank" rel="external">webpack 脚手架</a> ，设计的很合理，而且很适合我这种写着传统多页项目且刚刚接触 webpack 的人。</p>
+<ol>
+<li><p>entry 入口</p>
+<p> webpack 的 entry 入口决定了打包页面 js 逻辑 ，即对应目录下的 page.js 用来绑定事件、加载该页的 css 等等。</p>
+<p> page.js 只是打包网页中使用的 js 及 css ，是为当前网页服务的。</p>
+<p> <strong>构建过程（ “==&gt;” 表示在前者引入了后者）：</strong></p>
+<p> entry入口 ==&gt; page.js ==&gt; common.page.js (cp) 加载所有页面共用的 js、css、bootstrap依赖，加载非 npm 管理的库。</p>
+</li>
+<li><p>模板拼接</p>
+<p> 利用 webpack 的插件 html-webpack-plugin 来做模板拼接，通过遍历 entry 中的数组创建多个 html-webpack-plugin 对象，其中 template 参数通常是接受一个模板，此处比较巧妙的通过 js 来操作模板来完成页面拼装，这里的 js 都是为了拼接、引入服务的，并不是项目的业务逻辑，同时通过 chunks 参数引入 entry 里打包的 chunk，完美实现了 UI 构建。</p>
+<p> <strong>构建过程</strong></p>
+<ul>
+<li><p>循环创建 html-webpack-plugin 对象添加每个页面目录中的 html.js </p>
+</li>
+<li><p>html.js 引用该页的 content.ejs，向共用的 html.js ( laytout/layout-without-nav)，传入 title、content</p>
+</li>
+<li><p>html.js ( laytout/layout-without-nav) 中引用 common.config.js ( 拼装针对IE兼容性等条件加载路径数据) 和 without-jquery.js （ 创建部件的模板 a 标签指向路径所需的拼装方法 ）。最后合并产生一个 renderData，由该页面所使用的 layout 中的 html.ejs 来进行渲染。</p>
+<p>简单说就是，每个页面目录下的 html.js 是用来通过一系列数据拼装，通过 layout 模板来构建页面的。除了拼装了部分 Bootstap 条件加载 js 的路径，并没有涉及任何的 js 加载，只是单纯的为模板服务，这是与 page.js 最大的不同。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>原作者的脚手架中</p>
+<ul>
+<li>开发环境：纯静态资源（未压缩）本地调试（项目中没有任何的服务器环境）</li>
+<li>生产环境：在 webpack-dev-server 下部署的生产需求（已压缩）的代码</li>
+</ul>
+<p>这和我的使用习惯略有冲突，我个人习惯</p>
+<ul>
+<li>开发环境：项目中同时集成有完整的服务器环境（ Node.js mock 环境 ），同时预留接口方便与后端联调，且代码是未压缩的原始的。</li>
+<li>生产环境：进行了完整的打包优化等处理的部署可以直接其他服务器的代码。</li>
+</ul>
+<p>也就是说我和原作者这方面的需求基本上是相反的，所以需要我对代码修改，以适应此项目的开发环境既能热更新预览代码，又能具有完整的 mock 环境。</p>
+<p>同时，原作者的热更新只是针对静态资源，所以，在集成了服务器环境后，还要加一个对服务器文件的监控，以便修改、增加接口服务器可以自动重启。</p>
+<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><ul>
+<li><p>修改使默认使用 dev 的 webpack.config.js</p>
+<p>  原作者的方案中 package.js 里</p>
+  <figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line"> .......................................................</div><div class="line">  <span class="string">"start"</span>: <span class="string">"webpack-dev-server --inline --progress --compress --devtool eval --content-base build/"</span>,</div><div class="line">  ......................................................</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  这里 <code>start</code> 启动 <code>webpack-dev-server</code> ，默认是使用项目中的 webpack.config.js 这个配置文件，在此处对应的就是生产环境的配置。显然不是很合适，所以此处我们先把原作者项目中根目录下两个文件改改名</p>
+  <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">webpack<span class="selector-class">.config</span><span class="selector-class">.js</span> ==&gt; webpack<span class="selector-class">.product</span><span class="selector-class">.config</span><span class="selector-class">.js</span></div><div class="line">webpack<span class="selector-class">.dev</span><span class="selector-class">.config</span><span class="selector-class">.js</span> ==&gt; webpack<span class="selector-class">.config</span><span class="selector-class">.js</span></div></pre></td></tr></table></figure>
+<p>  然后我们把 <code>start</code> 的值先改为空，后面再说填什么。</p>
+<p>  事实上我后面发现，不改也行，不过我强迫症还是喜欢默认是开发环境，各位酌情修改吧。</p>
+<p>  改完名字还需要把 <code>package.js</code> 里 scripts 其他字段里的值做适当修改。</p>
+</li>
+<li><p>使用 Node API 启动 <code>webpack-dev-server</code>，同时使用 <code>express</code> 再启动一个服务来做接口模拟，还有集成服务器自动监控刷新</p>
+<p>  为了启动 webpack-dev-server 做热更新，同时还要有一个服务器环境做 mock，需要用 Node API 来启动 webpack-dev-server。查看<a href="http://webpack.github.io/docs/webpack-dev-server.html" target="_blank" rel="external">官网</a>可知：</p>
+<blockquote>
+<p>add an entry point to the webpack configuration: webpack/hot/dev-server.<br>add the new webpack.HotModuleReplacementPlugin() to the webpack configuration.<br>add hot: true to the webpack-dev-server configuration to enable HMR on the server.</p>
+</blockquote>
+<p>  官网这个说明太简略了，我查了各种资料才搞明白。针对原作者这个项目：</p>
+</li>
+</ul>
+<ol>
+<li><p>需要将现有的 entry.config.js 文件，复制创建 entry.dev.config.js 和 entry.product.config.js 两个文件，分别在 webpack.config.js 和 webpack.product.config.js 里引用，将 entry.dev.config.js 中的 </p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pageArr.forEach((<span class="built_in">page</span>) =&gt; &#123;</div><div class="line">  configEntry[<span class="built_in">page</span>] = <span class="built_in">path</span>.resolve(dirVars.pagesDir, <span class="built_in">page</span> + <span class="string">'/page'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p> 修改为</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pageArr.forEach((<span class="built_in">page</span>) =&gt; &#123;</div><div class="line">  configEntry[<span class="built_in">page</span>] = [<span class="built_in">path</span>.resolve(dirVars.pagesDir, <span class="built_in">page</span> + <span class="string">'/page'</span>),<span class="string">'webpack/hot/dev-server'</span>,<span class="string">'webpack-dev-server/client?http://localhost:8080'</span>];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>就是在页面中引入 socket.io 需要的js。</p>
+</li>
+<li><p>增加热更新插件</p>
+<p> 在 plugins.config.js 中 var configPlugins = [] 里增加一行</p>
+ <figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="type">webpack</span>.HotModuleReplacementPlugin(),</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建 Node API 引用，同时增加对服务器文件监控自动重启</p>
+</li>
+</ol>
+<ul>
+<li><p>安装依赖</p>
+  <figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># express 框架为了做服务器</span></div><div class="line">npm <span class="keyword">install</span> express --save-dev</div><div class="line"><span class="comment"># 监控服务器代码变动重启服务器</span></div><div class="line">npm <span class="keyword">install</span> supervisor -g</div><div class="line"><span class="comment"># 处理windows和其他Unix系统在设置环境变量的写法上不一致的问题</span></div><div class="line">npm <span class="keyword">install</span> cross-env --save-dev</div><div class="line"><span class="comment"># mockjs 用来 mock 数据生成</span></div><div class="line">npm <span class="keyword">install</span> mockjs --save-dev-dev</div></pre></td></tr></table></figure>
+<p>  原作者项目中移除了本地安装的 webpack 和 webpack-dev-server，根据我的测试，还是需要安装的，根据个人情况安装吧。</p>
+  <figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install webpack --<span class="built_in">save</span>-<span class="built_in">dev</span></div><div class="line">npm install webpack-<span class="built_in">dev</span>-server --<span class="built_in">save</span>-<span class="built_in">dev</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>在根目录下创建 webpack.dev.server.js，内容如下</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</div><div class="line"><span class="keyword">var</span> WebpackDevServer = <span class="built_in">require</span>(<span class="string">'webpack-dev-server'</span>);</div><div class="line"><span class="keyword">var</span> config = <span class="built_in">require</span>(<span class="string">'./webpack.config.js'</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> server = <span class="keyword">new</span> WebpackDevServer(webpack(config), &#123;</div><div class="line">    <span class="attr">contentBase</span>: <span class="string">'build/'</span>,</div><div class="line">    <span class="attr">historyApiFallback</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">devtool</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">hot</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">quiet</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">noInfo</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">publicPath</span>: <span class="string">'http://192.168.2.66:8080/'</span>,  <span class="comment">// 此处填你的局域网 IP ，在我的代码中进行了抽离</span></div><div class="line">    proxy: &#123;</div><div class="line">        <span class="string">'*'</span>: &#123;</div><div class="line">         <span class="attr">target</span>: <span class="string">'http://localhost:3000'</span>,</div><div class="line">         <span class="attr">secure</span>: <span class="literal">false</span>,</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">stats</span>: &#123; <span class="attr">colors</span>: <span class="literal">true</span> &#125;</div><div class="line">&#125;).listen(<span class="number">8080</span>, <span class="string">'0.0.0.0'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'socketio listen 8080'</span>);</div><div class="line">&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>再在根目录创建主启动 js app.js，内容如下</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> webpackServer = <span class="built_in">require</span>(<span class="string">'./webpack.dev.server'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 抽离的路由文件</span></div><div class="line"><span class="keyword">var</span> routes = <span class="built_in">require</span>(<span class="string">'./routes/api'</span>);</div><div class="line"></div><div class="line">webpackServer(app);</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'Hello World!'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(<span class="string">'/'</span>, routes);</div><div class="line"></div><div class="line">app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'The app listening on port 3000 was started!'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>根目录创建文件夹 routes，此文件夹下可以用来放各种模拟接口，在其中创建 api.js，内容如下</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> mock = <span class="built_in">require</span>(<span class="string">'mockjs'</span>);</div><div class="line"><span class="keyword">var</span> router = express.Router();</div><div class="line"></div><div class="line">router.route(<span class="string">'/api/test'</span>)</div><div class="line">	.get(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">		<span class="keyword">var</span> data = mock.mock(&#123;</div><div class="line">		    <span class="comment">// 属性 list 的值是一个数组，其中含有 1 到 10 个元素</span></div><div class="line">		    <span class="string">'list|1-10'</span>: [&#123;</div><div class="line">		        <span class="comment">// 属性 id 是一个自增数，起始值为 1，每次增 1</span></div><div class="line">		        <span class="string">'id|+1'</span>: <span class="number">1</span></div><div class="line">		    &#125;]</div><div class="line">		&#125;);</div><div class="line">		res.send(data);</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">router.route(<span class="string">'/api/'</span>)</div><div class="line">	.get(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">		res.send(<span class="string">'Hello API!'</span>);</div><div class="line">	&#125;);</div><div class="line">	</div><div class="line">router.route(<span class="string">'/api/post'</span>)</div><div class="line">	.post(<span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">		res.send(<span class="string">'Got a POST request'</span>);;</div><div class="line">	&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router;</div></pre></td></tr></table></figure>
+</li>
+<li><p>最后再修改一下启动 <code>package.js</code> 中的启动脚本</p>
+  <figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># supervisor 用 -i 来忽略文件</div><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">   ..........................................</div><div class="line">    <span class="string">"start"</span>: <span class="string">"cross-env NODE_ENV=dev supervisor -i build,node_modules app"</span>,</div><div class="line">    ........................................</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此时，就可以启动了。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm <span class="keyword">run</span><span class="bash"> start</span></div></pre></td></tr></table></figure>
+<p>现在访问 <a href="http://localhost:8080/index.html" target="_blank" rel="external">http://localhost:8080/index.html</a> 可以看到页面。</p>
+<p>访问 <a href="http://localhost:8080/api/test" target="_blank" rel="external">http://localhost:8080/api/test</a> 可以看到模拟的接口数据。</p>
+<h4 id="尚存问题"><a href="#尚存问题" class="headerlink" title="尚存问题"></a>尚存问题</h4><ul>
+<li><p>由于使用的 <code>html-webpack-plugin</code> 拼接出来的 HTML，所以所有的 HTML 并没有监控，需要手动在浏览器刷新。</p>
+</li>
+<li><p><code>html-webpack-plugin</code> 动态加载 chunk 并打上了 hash，导致每次任意一个 chunk 有改动，所有的 chunk 文件都会打上相同的 hash，对严格控制版本的情况不太合适。</p>
+</li>
+</ul>
+<hr>
+<p>附上我的项目地址 <a href="https://github.com/Nutlee/webpack-seed" target="_blank" rel="external">Nutlee/webpack-seed</a>，如有不同以 <code>GitHub</code> 中为准，此项目还在持续更新中。</p>
+<hr>
+<p>参考资料：</p>
+<p><a href="https://segmentfault.com/a/1190000006843916" target="_blank" rel="external">webpack多页应用架构系列（一）：一步一步解决架构痛点</a><br><a href="https://github.com/Array-Huang/webpack-seed" target="_blank" rel="external">Array-Huang/webpack-seed</a><br><a href="https://github.com/fouber/blog/issues/10" target="_blank" rel="external">前端工程——基础篇</a><br><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">《Javascript模块化编程》系列</a><br><a href="http://www.imooc.com/learn/99" target="_blank" rel="external">阿当大话西游之WEB组件</a><br><a href="http://www.boiajs.com/2015/08/25/webpack-dev-server-and-express-server" target="_blank" rel="external">在express服务中搭建webpack-dev-server</a><br><a href="http://acgtofe.com/posts/2016/02/full-live-reload-for-express-with-webpack" target="_blank" rel="external">Express结合Webpack的全栈自动刷新</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/"
+                    data-title="关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造"
+                    data-url="http://nutlee.space/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/"
+                    data-images=""
+                    data-content="最近看了 array_huang 的《webpack多页应用架构系列》颇有些感悟，加上入行两年... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/" data-toggle="tooltip" data-placement="top" title="GitHub/GitLab Webhook 实践">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/09/25/CSS3-动画及两个简单的例子/" data-toggle="tooltip" data-placement="top" title="CSS3 动画及两个简单例子">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/"
+                        data-title="关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造"
+                        data-url="http://nutlee.space/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Node.js" title="Node.js">Node.js</a>
+                        
+                          <a class="tag" href="/tags/#前端工具" title="前端工具">前端工具</a>
+                        
+                          <a class="tag" href="/tags/#mock" title="mock">mock</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Tags - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/tags/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/tag-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Tags</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">Hey, this is Tags.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+            <div id='tag_cloud' class="tags">
+                
+                    <a href="#position" title="position" rel="1">position</a>
+                
+                    <a href="#absolute" title="absolute" rel="1">absolute</a>
+                
+                    <a href="#relative" title="relative" rel="1">relative</a>
+                
+                    <a href="#fixed" title="fixed" rel="1">fixed</a>
+                
+                    <a href="#float" title="float" rel="2">float</a>
+                
+                    <a href="#CSS" title="CSS" rel="6">CSS</a>
+                
+                    <a href="#BFC" title="BFC" rel="1">BFC</a>
+                
+                    <a href="#margin合并" title="margin合并" rel="1">margin合并</a>
+                
+                    <a href="#margin塌陷" title="margin塌陷" rel="1">margin塌陷</a>
+                
+                    <a href="#CSS3" title="CSS3" rel="1">CSS3</a>
+                
+                    <a href="#动画" title="动画" rel="1">动画</a>
+                
+                    <a href="#代码规范" title="代码规范" rel="3">代码规范</a>
+                
+                    <a href="#权重" title="权重" rel="1">权重</a>
+                
+                    <a href="#display" title="display" rel="1">display</a>
+                
+                    <a href="#内联" title="内联" rel="1">内联</a>
+                
+                    <a href="#行内" title="行内" rel="1">行内</a>
+                
+                    <a href="#Demo" title="Demo" rel="1">Demo</a>
+                
+                    <a href="#作品" title="作品" rel="1">作品</a>
+                
+                    <a href="#Node.js" title="Node.js" rel="3">Node.js</a>
+                
+                    <a href="#GitHub" title="GitHub" rel="1">GitHub</a>
+                
+                    <a href="#前端部署" title="前端部署" rel="1">前端部署</a>
+                
+                    <a href="#Ubuntu" title="Ubuntu" rel="3">Ubuntu</a>
+                
+                    <a href="#GitLab" title="GitLab" rel="3">GitLab</a>
+                
+                    <a href="#Git" title="Git" rel="3">Git</a>
+                
+                    <a href="#JavaScript" title="JavaScript" rel="8">JavaScript</a>
+                
+                    <a href="#HTML" title="HTML" rel="4">HTML</a>
+                
+                    <a href="#Node.js 前端工具" title="Node.js 前端工具" rel="1">Node.js 前端工具</a>
+                
+                    <a href="#算法" title="算法" rel="1">算法</a>
+                
+                    <a href="#二叉树" title="二叉树" rel="1">二叉树</a>
+                
+                    <a href="#前端工具" title="前端工具" rel="2">前端工具</a>
+                
+                    <a href="#mock" title="mock" rel="1">mock</a>
+                
+                    <a href="#事件" title="事件" rel="1">事件</a>
+                
+                    <a href="#垂直居中" title="垂直居中" rel="1">垂直居中</a>
+                
+                    <a href="#jQuery" title="jQuery" rel="1">jQuery</a>
+                
+                    <a href="#event" title="event" rel="1">event</a>
+                
+                    <a href="#HTML5" title="HTML5" rel="1">HTML5</a>
+                
+                    <a href="#杂谈" title="杂谈" rel="1">杂谈</a>
+                
+                    <a href="#日记" title="日记" rel="1">日记</a>
+                
+            </div>
+
+            <!-- 标签列表 -->
+
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="position">
+                    <span class="tag-text">position</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/10/CSS中的定位(position属性)/">
+                        <h2 class="post-title">
+                            CSS中的定位（ position属性 ）
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="absolute">
+                    <span class="tag-text">absolute</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/10/CSS中的定位(position属性)/">
+                        <h2 class="post-title">
+                            CSS中的定位（ position属性 ）
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="relative">
+                    <span class="tag-text">relative</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/10/CSS中的定位(position属性)/">
+                        <h2 class="post-title">
+                            CSS中的定位（ position属性 ）
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="fixed">
+                    <span class="tag-text">fixed</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/10/CSS中的定位(position属性)/">
+                        <h2 class="post-title">
+                            CSS中的定位（ position属性 ）
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="float">
+                    <span class="tag-text">float</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/10/CSS中的定位(position属性)/">
+                        <h2 class="post-title">
+                            CSS中的定位（ position属性 ）
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/29/JS浮点数四则运算精度丢失问题/">
+                        <h2 class="post-title">
+                            JS浮点数四则运算精度丢失问题
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="CSS">
+                    <span class="tag-text">CSS</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/24/CSS中的BFC和Margin-Collapse/">
+                        <h2 class="post-title">
+                            CSS中的BFC和Margin Collapse
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/25/CSS3-动画及两个简单的例子/">
+                        <h2 class="post-title">
+                            CSS3 动画及两个简单例子
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/26/CSS代码规范/">
+                        <h2 class="post-title">
+                            CSS代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/31/jQuery:Zepto自定义插件/">
+                        <h2 class="post-title">
+                            jQuery/Zepto自定义插件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/27/两种方法制作单选按钮/">
+                        <h2 class="post-title">
+                            两种方法制作单选按钮
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/10/关于网页中的垂直居中/">
+                        <h2 class="post-title">
+                            关于网页中的垂直居中
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="BFC">
+                    <span class="tag-text">BFC</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/24/CSS中的BFC和Margin-Collapse/">
+                        <h2 class="post-title">
+                            CSS中的BFC和Margin Collapse
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="margin合并">
+                    <span class="tag-text">margin合并</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/24/CSS中的BFC和Margin-Collapse/">
+                        <h2 class="post-title">
+                            CSS中的BFC和Margin Collapse
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="margin塌陷">
+                    <span class="tag-text">margin塌陷</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/24/CSS中的BFC和Margin-Collapse/">
+                        <h2 class="post-title">
+                            CSS中的BFC和Margin Collapse
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="CSS3">
+                    <span class="tag-text">CSS3</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/25/CSS3-动画及两个简单的例子/">
+                        <h2 class="post-title">
+                            CSS3 动画及两个简单例子
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="动画">
+                    <span class="tag-text">动画</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/25/CSS3-动画及两个简单的例子/">
+                        <h2 class="post-title">
+                            CSS3 动画及两个简单例子
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="代码规范">
+                    <span class="tag-text">代码规范</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/26/CSS代码规范/">
+                        <h2 class="post-title">
+                            CSS代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/28/HTML代码规范/">
+                        <h2 class="post-title">
+                            HTML代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/29/JavaScript代码规范/">
+                        <h2 class="post-title">
+                            JavaScript代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="权重">
+                    <span class="tag-text">权重</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/24/CSS权重和display水平/">
+                        <h2 class="post-title">
+                            CSS权重和display水平
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="display">
+                    <span class="tag-text">display</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/24/CSS权重和display水平/">
+                        <h2 class="post-title">
+                            CSS权重和display水平
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="内联">
+                    <span class="tag-text">内联</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/24/CSS权重和display水平/">
+                        <h2 class="post-title">
+                            CSS权重和display水平
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="行内">
+                    <span class="tag-text">行内</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/24/CSS权重和display水平/">
+                        <h2 class="post-title">
+                            CSS权重和display水平
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Demo">
+                    <span class="tag-text">Demo</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/04/Demo&Product/">
+                        <h2 class="post-title">
+                            Demo & Product
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="作品">
+                    <span class="tag-text">作品</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/04/Demo&Product/">
+                        <h2 class="post-title">
+                            Demo & Product
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Node.js">
+                    <span class="tag-text">Node.js</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/">
+                        <h2 class="post-title">
+                            GitHub/GitLab Webhook 实践
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/">
+                        <h2 class="post-title">
+                            关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/28/基于express的前端开发环境/">
+                        <h2 class="post-title">
+                            基于express的前端开发环境
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="GitHub">
+                    <span class="tag-text">GitHub</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/">
+                        <h2 class="post-title">
+                            GitHub/GitLab Webhook 实践
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="前端部署">
+                    <span class="tag-text">前端部署</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/">
+                        <h2 class="post-title">
+                            GitHub/GitLab Webhook 实践
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Ubuntu">
+                    <span class="tag-text">Ubuntu</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab服务端常用操作及配置更改/">
+                        <h2 class="post-title">
+                            GitLab服务端常用操作及配置更改
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/11/GitLab快速搭建及中文汉化/">
+                        <h2 class="post-title">
+                            GitLab快速搭建及中文汉化
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab(Git)的初次使用/">
+                        <h2 class="post-title">
+                            GitLab(Git)的初次使用
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="GitLab">
+                    <span class="tag-text">GitLab</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab服务端常用操作及配置更改/">
+                        <h2 class="post-title">
+                            GitLab服务端常用操作及配置更改
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/11/GitLab快速搭建及中文汉化/">
+                        <h2 class="post-title">
+                            GitLab快速搭建及中文汉化
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab(Git)的初次使用/">
+                        <h2 class="post-title">
+                            GitLab(Git)的初次使用
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Git">
+                    <span class="tag-text">Git</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab服务端常用操作及配置更改/">
+                        <h2 class="post-title">
+                            GitLab服务端常用操作及配置更改
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/11/GitLab快速搭建及中文汉化/">
+                        <h2 class="post-title">
+                            GitLab快速搭建及中文汉化
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/14/GitLab(Git)的初次使用/">
+                        <h2 class="post-title">
+                            GitLab(Git)的初次使用
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="JavaScript">
+                    <span class="tag-text">JavaScript</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/05/29/JS浮点数四则运算精度丢失问题/">
+                        <h2 class="post-title">
+                            JS浮点数四则运算精度丢失问题
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/31/jQuery:Zepto自定义插件/">
+                        <h2 class="post-title">
+                            jQuery/Zepto自定义插件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/29/JavaScript代码规范/">
+                        <h2 class="post-title">
+                            JavaScript代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/27/两种方法制作单选按钮/">
+                        <h2 class="post-title">
+                            两种方法制作单选按钮
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/02/二叉树基本概念及遍历/">
+                        <h2 class="post-title">
+                            二叉树基本概念及遍历
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/24/原生js事件监听和一次事件/">
+                        <h2 class="post-title">
+                            原生js事件监听和一次事件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/04/原生js和jQuery中的事件event/">
+                        <h2 class="post-title">
+                            原生js和jQuery中的事件event
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/24/移动端开发的自适应/">
+                        <h2 class="post-title">
+                            移动端开发的自适应
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="HTML">
+                    <span class="tag-text">HTML</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/04/28/HTML代码规范/">
+                        <h2 class="post-title">
+                            HTML代码规范
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/31/jQuery:Zepto自定义插件/">
+                        <h2 class="post-title">
+                            jQuery/Zepto自定义插件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/27/两种方法制作单选按钮/">
+                        <h2 class="post-title">
+                            两种方法制作单选按钮
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/10/关于网页中的垂直居中/">
+                        <h2 class="post-title">
+                            关于网页中的垂直居中
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Node.js 前端工具">
+                    <span class="tag-text">Node.js 前端工具</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/">
+                        <h2 class="post-title">
+                            shell增强术--iTem2+zsh+oh-my-zsh安装部署
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="算法">
+                    <span class="tag-text">算法</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/02/二叉树基本概念及遍历/">
+                        <h2 class="post-title">
+                            二叉树基本概念及遍历
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="二叉树">
+                    <span class="tag-text">二叉树</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/02/二叉树基本概念及遍历/">
+                        <h2 class="post-title">
+                            二叉树基本概念及遍历
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="前端工具">
+                    <span class="tag-text">前端工具</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/">
+                        <h2 class="post-title">
+                            关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/28/基于express的前端开发环境/">
+                        <h2 class="post-title">
+                            基于express的前端开发环境
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="mock">
+                    <span class="tag-text">mock</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/10/24/关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造/">
+                        <h2 class="post-title">
+                            关于前端工程化的思考及《webpack多页应用架构系列》mock开发环境改造
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="事件">
+                    <span class="tag-text">事件</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/24/原生js事件监听和一次事件/">
+                        <h2 class="post-title">
+                            原生js事件监听和一次事件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="垂直居中">
+                    <span class="tag-text">垂直居中</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/06/10/关于网页中的垂直居中/">
+                        <h2 class="post-title">
+                            关于网页中的垂直居中
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="jQuery">
+                    <span class="tag-text">jQuery</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/04/原生js和jQuery中的事件event/">
+                        <h2 class="post-title">
+                            原生js和jQuery中的事件event
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="event">
+                    <span class="tag-text">event</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/09/04/原生js和jQuery中的事件event/">
+                        <h2 class="post-title">
+                            原生js和jQuery中的事件event
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="HTML5">
+                    <span class="tag-text">HTML5</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/24/移动端开发的自适应/">
+                        <h2 class="post-title">
+                            移动端开发的自适应
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="杂谈">
+                    <span class="tag-text">杂谈</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/18/欢迎造访/">
+                        <h2 class="post-title">
+                            欢迎造访
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="日记">
+                    <span class="tag-text">日记</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/18/欢迎造访/">
+                        <h2 class="post-title">
+                            欢迎造访
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

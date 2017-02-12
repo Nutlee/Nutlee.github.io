@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Mac 工作环境安装及备份 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://nutlee.space/2017/02/11/Mac-工作环境安装及备份/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nutlee&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
+                        
+                    </div>
+                    <h1>Mac 工作环境安装及备份</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Nutlee on
+                        2017-02-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>好久没写东西了，因为农历新年，加上换公司，2月8号新公司入职，拿到新电脑马不停蹄的装各种开发环境，才发现各种安装备份设置是个坑，没有一篇把这些东西交代清楚的，本文旨在记录个人工作需要的环境安装和备份。<br><a id="more"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>作为一个普通前端，先上一个 list 吧，后面想到再补充。</p>
+<ul>
+<li>Homebrew &amp;&amp; Homebrew cask</li>
+<li>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2 </li>
+<li>nvm &amp;&amp; Node.js</li>
+<li>Sublime Text3</li>
+<li>Git</li>
+<li>Chrome</li>
+<li>MWeb</li>
+<li>1Password</li>
+<li>tree</li>
+<li>…</li>
+</ul>
+<p>安装前最好尽可能的先把 Mac 升级到最新系统，然后开始我们的安装吧。</p>
+<h3 id="Homebrew-amp-amp-Homebrew-cask"><a href="#Homebrew-amp-amp-Homebrew-cask" class="headerlink" title="Homebrew &amp;&amp; Homebrew cask"></a>Homebrew &amp;&amp; Homebrew cask</h3><p>Homebrew 的安装很简单了，只要如下命令或者查看<a href="http://brew.sh/index_zh-cn.html" target="_blank" rel="external">官网</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div></pre></td></tr></table></figure>
+<p>Homebrew cask 安装</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 需先安装 Homebrew</span></div><div class="line"><span class="keyword">brew </span><span class="keyword">install </span>cask</div></pre></td></tr></table></figure>
+<p>关于 Homebrew 和 Homebrew cask 在我这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTem2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTem2+zsh+oh-my-zsh安装部署</a>有说</p>
+<blockquote>
+<p>Homebrew 是 MacOS 上的套件管理器，主要面对开发者，你几乎可以用它下载和部署所有的软件/环境，类似于 iOS 上越狱后的 Cyida。<br>Homebrew-cask 主要针对普通用户，用来下载各种 GUI 程序，是 Homebrew 的补充。</p>
+</blockquote>
+<p>先安装 Homebrew 的原因是后续的软件基本上都可以通过 Homebrew 来安装，这样我们就有一个统一的管理软件的工具了。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">brew </span><span class="keyword">install </span>&lt;package_name&gt;</div><div class="line"><span class="comment"># 或者</span></div><div class="line"><span class="keyword">brew </span>cask <span class="keyword">install </span>&lt;package_name&gt;</div></pre></td></tr></table></figure>
+<h3 id="Zsh-amp-amp-oh-my-zsh-amp-amp-iTem2"><a href="#Zsh-amp-amp-oh-my-zsh-amp-amp-iTem2" class="headerlink" title="Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2"></a>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2</h3><p>这个的安装可以看我之前的这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTem2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTem2+zsh+oh-my-zsh安装部署</a>，基本思路就是用 Homebrew 安装 Zsh，Homebrew-cask 安装 iTem2 ,然后安装 ob-my-zsh，再安装相应的主题、插件。</p>
+<h3 id="nvm-amp-amp-Node-js"><a href="#nvm-amp-amp-Node-js" class="headerlink" title="nvm &amp;&amp; Node.js"></a>nvm &amp;&amp; Node.js</h3><p>nvm 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install nvm</div></pre></td></tr></table></figure>
+<p>Node.js 安装</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nvm <span class="keyword">ls</span>-remote</div><div class="line">nvm <span class="keyword">use</span> 版本号</div></pre></td></tr></table></figure>
+<p>因为是用 nvm 安装的 Node，所以还需要点额外操作</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir ~<span class="regexp">/.nvm</span></div><div class="line">cp $(brew --prefix nvm)/nvm-exec ~<span class="regexp">/.nvm/</span></div></pre></td></tr></table></figure>
+<p>然后在 .zshrc 中增加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用 brew 安装的 nvm</span></div><div class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"<span class="variable">$HOME</span>/.nvm"</span></div><div class="line"><span class="built_in">source</span> <span class="string">"<span class="variable">$(brew --prefix nvm)</span>/nvm.sh"</span></div></pre></td></tr></table></figure>
+<p>重新加载下 .zshrc 就可以了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ~/.zshrc</div></pre></td></tr></table></figure>
+<p>此处参考<a href="http://yijiebuyi.com/blog/b1328ffe88cdde6b4102894635cf8f11.html" target="_blank" rel="external">node.js 版本控制 nvm 和 n 使用 及 nvm 重启终端失效的解决方法</a></p>
+<h3 id="Sublime-Text3"><a href="#Sublime-Text3" class="headerlink" title="Sublime Text3"></a>Sublime Text3</h3><p>这个直接下载安装就可以了，安装完成后通过序列号激活。</p>
+<p>安装完成后，打开 Sublime Text3 按下快捷键<code>⌘ + ~</code>呼出命令控制器，粘贴以下命令（<a href="https://packagecontrol.io/installation" target="_blank" rel="external">官网</a>）安装安装包控制器 PageControl。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import urllib.request,os,hashlib; h = <span class="string">'df21e130d211cfc94d9b0905775a7c0f'</span> + <span class="string">'1e3d39e33b79698005270310898eea76'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); <span class="keyword">by</span> = urllib.request.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.<span class="built_in">replace</span>(<span class="string">' '</span>, <span class="string">'%20'</span>)).<span class="built_in">read</span>(); dh = hashlib.sha256(<span class="keyword">by</span>).hexdigest(); print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h)) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="built_in">open</span>(os.path.join( ipp, pf), <span class="string">'wb'</span> ).<span class="built_in">write</span>(<span class="keyword">by</span>)</div></pre></td></tr></table></figure>
+<p>显示如下即代表安装完成</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">error: </span>Package Control</div><div class="line">1 missing dependency was just installed. Sublime Text should be restarted, otherwise one or more of the installed packages may not function properly.</div></pre></td></tr></table></figure>
+<p>如果需要安装插件，使用快捷键 <code>⌘ + ⇧ + p</code>，然后选择 Package Control: Install Package，再输入要安装的插件名即可。</p>
+<p><strong>修改图标</strong></p>
+<p>直接在 <a href="https://dribbble.com/" target="_blank" rel="external">dribbble</a> 搜索 Sublime Text，会有各种图标，下载，然后在 Finder 中打开 <code>/Applications</code>，选中已经安装的 Sublime text.App，按下 <code>⌘+i</code> 或者右键 <code>显示简介</code>，将下载下来的图标 .icns 文件改名为 <code>Sublime Text.icns</code>，然后拖动到 <strong>“Sublime Text”简介</strong> 窗口左上角图标处，即可替换图标。</p>
+<h3 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h3><p>其他软件基本上有三个途径安装</p>
+<ol>
+<li>MacAppStrore，如 MWeb</li>
+<li><p>Homebrew/Homebrew-cask，如 Chrome、Firefox</p>
+ <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 搜索软件</span></div><div class="line"><span class="keyword">brew </span>seacrh 软件名</div><div class="line"><span class="keyword">brew </span>cask <span class="keyword">install </span>google-chrome firefox</div></pre></td></tr></table></figure>
+</li>
+<li><p>官网，如 1Password</p>
+</li>
+</ol>
+<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><p>相对安装来说备份的东西少点，对于我个人而言只有</p>
+<ul>
+<li>Sublime Text3 插件、设置、图标、字体</li>
+<li>Zsh 的插件</li>
+<li>iTem2 的设置和主题、配色方案</li>
+<li>其他</li>
+</ul>
+<p>但是备份是个细致活，一不小心就“回到解放前”了。</p>
+<h3 id="Sublime-Text3-1"><a href="#Sublime-Text3-1" class="headerlink" title="Sublime Text3"></a>Sublime Text3</h3><p>打开 <code>~/Library/Application Support/Sublime Text 3</code> 路径，或者在 Sublime Text3 中依次打开 Preferences =&gt; Browse Packages。</p>
+<p>备份 Packages 即可备份所有的插件、设置。</p>
+<p>如果你在 Sublime 中使用了自定义的字体，那么还需要在系统自带的 App — <strong>字体册</strong> 中导出字体并备份。</p>
+<h3 id="Zsh"><a href="#Zsh" class="headerlink" title="Zsh"></a>Zsh</h3><p>备份 <code>~/.oh-my-zsh/</code> 下的 <code>plugins</code> 和 <code>themes</code> 文件夹，即可。<br>注意：通常这样备份后恢复时还需要在目标机器， <code>~/.zshrc</code> 文件中开启了对应的插件和主题。</p>
+<h3 id="iTem2"><a href="#iTem2" class="headerlink" title="iTem2"></a>iTem2</h3><p>这里分成两部分<br>关于基本的快捷键和软件设置，备份 <code>~/Library/Preferences/com.googlecode.iterm2.plist</code> 文件就好。<br>关于主题，将 Preference =&gt; Profiles =&gt; Colors 右下角下拉按钮选择 <code>Export</code> 即可。</p>
+<hr>
+<p>参考资料：</p>
+<p><a href="http://yijiebuyi.com/blog/b1328ffe88cdde6b4102894635cf8f11.html" target="_blank" rel="external">node.js 版本控制 nvm 和 n 使用 及 nvm 重启终端失效的解决方法</a><br><a href="http://www.cnblogs.com/Don/p/4672287.html" target="_blank" rel="external">Mac上使用brew安装nvm来支持多版本的Nodejs</a><br><a href="https://github.com/creationix/nvm" target="_blank" rel="external">creationix/nvm</a><br><a href="http://lovelock.coding.me/mac/2015-09-20-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iTerm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" target="_blank" rel="external">批量删除iTerm2的主题配置</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share flat"
+                    style="text-align: right"
+                    data-thread-key="2017/02/11/Mac-工作环境安装及备份/"
+                    data-title="Mac 工作环境安装及备份"
+                    data-url="http://nutlee.space/2017/02/11/Mac-工作环境安装及备份/"
+                    data-images=""
+                    data-content="好久没写东西了，因为农历新年，加上换公司，2月8号新公司入职，拿到新电脑马不停蹄的装各种开发环... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-32">
+                           <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
+                           <li> <a class="ds-weibo" href="javascript:void(0);" data-service="weibo"></a> </li> 
+                           <li> <a class="ds-wechat" href="javascript:void(0);" data-service="wechat"></a> </li> 
+                           <li> <a class="ds-qzone" href="javascript:void(0);" data-service="qzone"></a> </li> 
+                           <li> <a class="ds-qq" href="javascript:void(0);" data-service="qq"></a> </li> 
+                           <li> <a class="ds-google" href="javascript:void(0);" data-service="google"></a> </li> 
+                           <li> <a class="ds-facebook" href="javascript:void(0);" data-service="facebook"></a> </li> 
+                           <li> <a class="ds-twitter" href="javascript:void(0);" data-service="twitter"></a> </li> 
+                           <li> <a class="ds-linkedin" href="javascript:void(0);" data-service="linkedin"></a> </li> 
+                        </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/12/19/GitHub:GitLab-Webhook-实践/" data-toggle="tooltip" data-placement="top" title="GitHub/GitLab Webhook 实践">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2017/02/11/Mac-工作环境安装及备份/"
+                        data-title="Mac 工作环境安装及备份"
+                        data-url="http://nutlee.space/2017/02/11/Mac-工作环境安装及备份/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+
+                <!-- Featured Tags -->
+                
+                <hr/>
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://carnivalo.top/" target="_blank">CarnivalO&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'hexoremark';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/lixuanyy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2428652292">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Nutlee">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted"> 
+                    <span id="busuanzi_container_page_pv">
+                     本文总阅读量 <span id="busuanzi_value_page_pv"> </span>次
+                    </span>
+                </p>
+                <p class="copyright text-muted">
+                    Copyright &copy; Nutlee&#39;s Blog 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://nutlee.space/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'nutlee.space';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '22581b138ee253e02f960012065f1def';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://nutlee.space/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

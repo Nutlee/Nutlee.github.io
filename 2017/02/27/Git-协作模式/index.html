@@ -220,12 +220,9 @@
 <li><p>版本回滚</p>
 <p> 通常情况下用 <code>checkout</code> 回滚文件，用 <code>reset</code> 回滚版本</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 丢弃工作区文件</div><div class="line">git checkout -- file</div><div class="line"># 暂存区放回工作区</div><div class="line">git reset HEAD file</div><div class="line"># 版本回退 HEAD 指当前版本，HEAD^ 指上一版本</div><div class="line"># 完全舍弃当前的修改</div><div class="line">git reset --hard HEAD</div></pre></td></tr></table></figure>
+<p> <strong>特殊情况</strong> <code>revert</code> 可以回滚到指定版本并生成一次回滚提交，主要用与 <code>master</code> 等核心分支，体现完整的开发记录。</p>
+ <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 回滚到倒数第二个版本</span></div><div class="line"><span class="attribute">git</span> revert HEAD~<span class="number">2</span></div></pre></td></tr></table></figure>
 </li>
-</ol>
-<pre><code>**特殊情况** `revert` 可以回滚到指定版本并生成一次回滚提交，主要用与 `master` 等核心分支，体现完整的开发记录。
-
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 回滚到倒数第二个版本</span></div><div class="line"><span class="attribute">git</span> revert HEAD~<span class="number">2</span></div></pre></td></tr></table></figure>
-</code></pre><ol>
 <li><p>遴选</p>
 <p> 遴选这个功能是为了防止“手抖”，有时候你可能会不注意直接在 <code>develop</code> 分支修改了，并且提交到了代码仓库，一般情况下的处理方式就是到自己的分支上再改一遍了。遴选就是为了处理这种情况的，通过查看 <code>develop</code> 分支的 <code>log</code>，然后根据 commit-id 可以挑出来某次提交，再切换到自己的分支合并。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 切换到自己的分支</div><div class="line">git cherry-pick commit-id</div></pre></td></tr></table></figure>

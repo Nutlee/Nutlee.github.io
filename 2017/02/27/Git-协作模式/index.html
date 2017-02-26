@@ -13,11 +13,11 @@
 
     <title>
         
-          CSS中的定位（ position属性 ） - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+          Git 协作模式 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://nutlee.space/2016/05/10/CSS中的定位(position属性)/">
+    <link rel="canonical" href="http://nutlee.space/2017/02/27/Git-协作模式/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,22 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#position" title="position">position</a>
-                        
-                          <a class="tag" href="/tags/#absolute" title="absolute">absolute</a>
-                        
-                          <a class="tag" href="/tags/#relative" title="relative">relative</a>
-                        
-                          <a class="tag" href="/tags/#fixed" title="fixed">fixed</a>
-                        
-                          <a class="tag" href="/tags/#float" title="float">float</a>
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
                         
                     </div>
-                    <h1>CSS中的定位（ position属性 ）</h1>
+                    <h1>Git 协作模式</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Nutlee on
-                        2016-05-10
+                        2017-02-27
                     </span>
                 </div>
             </div>
@@ -199,48 +191,56 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>HTML标签通常通过CSS的position属性进行定位设置，其中当值为absulute时是一种非常灵活的定位方式（性能较差？有待求证），可以这么说，搞清楚position属性基本上就能完成HTML的总体布局。</p>
-<p>position属性的值主要有<strong>static、relative、absolute、fixed</strong> ( 不考虑initial和inherit )。</p>
-<a id="more"></a>
-<p>下面依次展开介绍</p>
-<h2 id="1-static"><a href="#1-static" class="headerlink" title="1.static"></a>1.static</h2><p>默认值，遵循正常文档流。</p>
-<p>此时 top/right/bottom/left 属性均无效。</p>
-<h2 id="2-relative"><a href="#2-relative" class="headerlink" title="2.relative"></a>2.relative</h2><p>相对定位，与absolute并不是相对关系。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.warp</span> &#123;</div><div class="line">		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">		<span class="attribute">background-color</span>: <span class="number">#ccc</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.box</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative; </div><div class="line">		<span class="attribute">top</span>: <span class="number">40px</span>;</div><div class="line">		<span class="attribute">left</span>: <span class="number">50px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">		<span class="comment">/* 为直观展示，设置透明度 */</span></div><div class="line">		<span class="attribute">opacity</span>: <span class="number">0.7</span>;</div><div class="line">		<span class="attribute">filter</span>: <span class="built_in">Alpha</span>(opacity=70);</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span>wrap</div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span>box<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	此文字并不会占据位置relative元素本应该在文档流中的位置</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<div style="width:300px;height:200px;background-color: #ccc;">wrap<div style="position: relative; top: 40px;left: 50px;width: 100px;height: 100px;background-color:yellow;opacity:0.7;filter:Alpha(opacity=70);">box</div>此文字并不会占据位置relative元素本应该在文档流中的位置<br></div>
+                <p>进新公司第二周，完全是从未接触过的工作氛围，只能说“非常兴奋”。坦率的讲，在纯技术型公司太幸福了，有点理解之前雷军说「<strong>我要写一辈子的代码</strong>」的意味了。<br><a id="more"></a></p>
+<p>经过了接连踩坑，有必要记录下点点滴滴，原来自己之前对 Git 的使用是有误解的，我之在只在意 Git 的语法（虽然Git 命令也没熟到哪里），并没有理解 Git 最核心的是协作思想，至于各种命令只是副产物。下面我要先从反面讲我之前的误区，然后结合公司的实践进入正题「<strong>Git协作模式</strong>」</p>
+<h2 id="需要澄清的误区"><a href="#需要澄清的误区" class="headerlink" title="需要澄清的误区"></a>需要澄清的误区</h2><p>一直以来我的认知的 Git branch 结构是如下：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">|-- master  主分支</span></div><div class="line"><span class="string">|-- dev 开发分支</span></div><div class="line"><span class="string">|-- bug</span></div><div class="line"><span class="string">|-- feature</span></div></pre></td></tr></table></figure>
+<p>这里没有错，但是重点在于，我的理解是每个人根据自己的工作内容新建不同的分支，进而合并到 <code>dev</code> ，<code>dev</code> 再合并到 <code>master</code>（或者直接合并到<code>master</code>），表面上看是条理的，然而自己想想这样真的很蛋疼，意味着你的每次 <code>feature</code> 或者 <code>fix</code> 都要走这么一个流程，且不说流程的复杂，至少在多人协作的时候，你合并到了 <code>dev</code>，我也合并过去，再到 <code>master</code>，出了问题怎么排查？</p>
+<p>所以，我对 Git 的理解纯属 YY，那么问题来了，怎么样用 Git 才是正确的“姿势”呢？</p>
+<h2 id="正确的模式"><a href="#正确的模式" class="headerlink" title="正确的模式"></a>正确的模式</h2><p>首页，分支的结构和上面说的基本一致，重点在于：</p>
+<ul>
+<li><code>master</code> 只有一个，主分支，只能 <code>merge</code> 进去，<strong>绝对不能直接操作</strong>，有冲突先将 <code>master</code> 合并到冲突分支，解决冲突后再合并到 <code>master</code></li>
+<li><code>develop</code> 只有一个，是“脏分支”，可以任意合并，用于内部测试、预览（alpha 环境）</li>
+<li><code>feature/XXXXX</code> 每个人开发的时候从最新的 <code>master</code> 切出来的，开发阶段可以合并到 <code>develop</code> 分支测试、预览，开发完成需合并到 <code>master</code></li>
+<li><code>fix/XXXXX</code> 修复指定问题或者 bug的分支，类似 <code>feature</code> 分支，开发阶段可以合并到 <code>develop</code> 分支测试、预览，开发完成需合并到 <code>master</code></li>
+<li>如果有其他类型的分支，操作习惯等同于 <code>feature</code></li>
+</ul>
+<p>需要注意的是：</p>
+<ul>
+<li>绝对不能直接直接对 <code>master</code> 分支进行操作！！！<code>master</code> 分支只存在其他分支合并进去这种可能，当然如果有冲突先在自己分支解决冲突</li>
+<li>创建任何需要提交的分支一定来自是来自 <code>master</code> 分支的 <code>checkout</code></li>
+</ul>
+<h2 id="Git-姿势"><a href="#Git-姿势" class="headerlink" title="Git 姿势"></a>Git 姿势</h2><p>以下是几个常用的 Git “痛点”</p>
+<ol>
+<li><p>缓存工作区</p>
+<p> 众所周知，当前工作区修改后没有提交时直接切换分支，Git 会有警告不让你直接切换，一般的做法就是把当前的修改 <code>add</code> 再 <code>commit</code> 到仓库再切换，其实用 <code>stash</code> 更优雅。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 缓存当前的工作区</div><div class="line">git stash</div><div class="line"># 取出缓存的修改</div><div class="line">git stash apply</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<pre><code>尤其是暂时性切换到别的分支，再切回来的时候，使用 `stash` 非常方便，但是**友情提醒**，如果是多个分支来回切换并且长时间工作，建议还是 `commit` 到仓库吧，因为时间久了你可能会忘记 `stash` 的是哪个分支的何种修改。
+</code></pre><ol>
+<li><p>版本回滚</p>
+<p> 通常情况下用 <code>checkout</code> 回滚文件，用 <code>reset</code> 回滚版本</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 丢弃工作区文件</div><div class="line">git checkout -- file</div><div class="line"># 暂存区放回工作区</div><div class="line">git reset HEAD file</div><div class="line"># 版本回退 HEAD 指当前版本，HEAD^ 指上一版本</div><div class="line"># 完全舍弃当前的修改</div><div class="line">git reset --hard HEAD</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<pre><code>**特殊情况** `revert` 可以回滚到指定版本并生成一次回滚提交，主要用与 `master` 等核心分支，体现完整的开发记录。
 
-<p>如上图，此时 top/right/bottom/left 相对元素<strong>本应该在文档流中所处的位置</strong>定位，其层叠通过z-index属性定义。</p>
-<p>注意：元素还在文档流中，并且仍占据原来位置（即wrap内的左上角），也就是说其他处于文档流中的元素也不会占据其位置。</p>
-<h2 id="3-absolute"><a href="#3-absolute" class="headerlink" title="3.absolute"></a>3.absolute</h2><p>绝对定位，具有和设置z-index相同的效果，完全脱离文档流，<strong>“ 最佳布局 ”</strong></p>
-<ul>
-<li><p>只设置 position:absolute 且没有任何 top/right/bottom/left 或 margin 属性，元素会表现为z-index: x ，即：“跳出”文档流。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 回滚到倒数第二个版本</span></div><div class="line"><span class="attribute">git</span> revert HEAD~<span class="number">2</span></div></pre></td></tr></table></figure>
+</code></pre><ol>
+<li><p>遴选</p>
+<p> 遴选这个功能是为了防止“手抖”，有时候你可能会不注意直接在 <code>develop</code> 分支修改了，并且提交到了代码仓库，一般情况下的处理方式就是到自己的分支上再改一遍了。遴选就是为了处理这种情况的，通过查看 <code>develop</code> 分支的 <code>log</code>，然后根据 commit-id 可以挑出来某次提交，再切换到自己的分支合并。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 切换到自己的分支</div><div class="line">git cherry-pick commit-id</div></pre></td></tr></table></figure>
 </li>
-<li><p>如图，position:absolute后，此时 top/right/bottom/left 是相对 <strong>最靠近元素且 “ position不为static ” 的父容器的border</strong> 定位的，也就是说该父容器内的padding不会对定位造成任何影响，并且 <strong>完全脱离文档流</strong>，即文档流中的其他元素可以占据他的位置。</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.warp</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">		<span class="attribute">background-color</span>: <span class="number">#ccc</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.box</span> &#123;</div><div class="line">		<span class="comment">/* 可以尝试去掉 absolute 看元素本来所处的位置 */</span></div><div class="line">		<span class="attribute">position</span>: absolute; </div><div class="line">		<span class="attribute">top</span>: <span class="number">40px</span>;</div><div class="line">		<span class="attribute">left</span>: <span class="number">50px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">		<span class="comment">/* 为直观显示，设置透明度 */</span></div><div class="line">		<span class="attribute">opacity</span>: <span class="number">0.7</span>;</div><div class="line">		<span class="attribute">filter</span>: <span class="built_in">Alpha</span>(opacity=70);</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span>wrap<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span>box<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	此文字并不会占据位置relative元素本应该在文档流中的位置</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<li><p>远端仓库</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 取远端仓库并创建分支</span></div><div class="line">git fetch origin <span class="literal">master</span>: feature/XXX</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<div style="position: relative;width:300px;height:200px;margin-left: 2.8em;background-color: #ccc;">wrap<br><div style="position: absolute; top: 40px;left: 50px;width: 100px;height: 100px;background-color:yellow;opacity:0.7;filter:Alpha(opacity=70);">box相对不为static的父容器border定位</div>此文字会占据absolute元素本应该在文档流中的位置<br></div>
-
-<ul>
-<li><p>如图，若 position:absolute 后并没有 top/right/bottom/left ，只有 margin 属性，则元素表现 “跟随” 特性，即：<strong>处在本应该在文档流的位置，但是脱离了文档流</strong>，相当于relative 和 z-index 共同作用。利用“跟随”特性，可非常灵活的做突破一些区域的定位，如右上角角标。</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-class">.warp</span> &#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">width</span>:<span class="number">300px</span>;</div><div class="line">		<span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line">		<span class="attribute">background-color</span>: <span class="number">#ccc</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="selector-class">.box</span> &#123;</div><div class="line">		<span class="comment">/* 可以尝试去掉 absolute 看元素本来所处的位置 */</span></div><div class="line">		<span class="attribute">position</span>: absolute; </div><div class="line">		<span class="attribute">margin-top</span>: <span class="number">40px</span>;</div><div class="line">		<span class="attribute">margin-left</span>: <span class="number">50px</span>;</div><div class="line">		<span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">		<span class="attribute">background-color</span>: yellow;</div><div class="line">		<span class="comment">/* 为直观显示，设置透明度 */</span></div><div class="line">		<span class="attribute">opacity</span>: <span class="number">0.7</span>;</div><div class="line">		<span class="attribute">filter</span>: <span class="built_in">Alpha</span>(opacity=70);</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span>wrap<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span>box<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	此文字并不会占据位置relative元素本应该在文档流中的位置</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<li><p>其他</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 创建分支</div><div class="line">git checkout -b [new branch]</div><div class="line">git checkout -D [branch]</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<p><div style="position: relative;width:300px;height:200px;margin-left: 2.8em;background-color: #ccc;">wrap<br><div style="position: absolute; margin-top: 40px;margin-left: 50px;width: 100px;height: 100px;background-color:yellow;opacity:0.7;filter:Alpha(opacity=70);">box相对原位置定位</div>此文字会占据absolute元素本应该在文档流中的位置<br></div><br></p>
-<p>注意</p>
-<ul>
-<li><p>absolute 元素的 top/right/left/bottom 同时设置时，只有top/left 生效。</p>
-</li>
-<li><p>position: absolute 会隐式 display: inline-block;(float: left/right 也会执行此隐式操作)。</p>
-</li>
-<li><p>通常情况下，设置 positon: absolute 后不需要手动设置 z-index，遵循的规则为：后一个absolute元素的z-index等于前一个absolute的z-index+1，特殊情况下需手动设置”z-index: 999”或“z-index: -1”。</p>
-</li>
-</ul>
-<h2 id="4-fixed"><a href="#4-fixed" class="headerlink" title="4.fixed"></a>4.fixed</h2><p>固定定位，相对于视口定位。</p>
-<p>通常用来做在窗口中始终固定的button、bar。</p>
-<p>注意：fixed相当于一种特殊的absolute，在移动浏览器对fixed支持很差，可以用absolute来解决。</p>
-<h2 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h2><h4 id="文档流"><a href="#文档流" class="headerlink" title="文档流"></a>文档流</h4><p>在窗口中，每行按照自上而下，行内元素从左到右的排列规则，即文档流，正常的文档流应该是文档节点的加载顺序、渲染顺序和视觉上的呈现顺序结构一致。布局中，我们应该尽量不破坏文档流。</p>
-<p><strong><em>脱离文档流的两种方式：浮动和定位（特指absolute）</em></strong></p>
+</ol>
+<hr>
+<p>参考资料：<br><a href="https://github.com/geeeeeeeeek/git-recipes/wiki/5.2-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A%EF%BC%9AReset%E3%80%81Checkout%E3%80%81Revert%E7%9A%84%E9%80%89%E6%8B%A9" target="_blank" rel="external">5.2 代码回滚：Reset、Checkout、Revert的选择</a></p>
 
 
                 <hr>
@@ -250,11 +250,11 @@
                 </style>
                 <div class="ds-share flat"
                     style="text-align: right"
-                    data-thread-key="2016/05/10/CSS中的定位(position属性)/"
-                    data-title="CSS中的定位（ position属性 ）"
-                    data-url="http://nutlee.space/2016/05/10/CSS中的定位(position属性)/"
+                    data-thread-key="2017/02/27/Git-协作模式/"
+                    data-title="Git 协作模式"
+                    data-url="http://nutlee.space/2017/02/27/Git-协作模式/"
                     data-images=""
-                    data-content="HTML标签通常通过CSS的position属性进行定位设置，其中当值为absulute时是一... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    data-content="进新公司第二周，完全是从未接触过的工作氛围，只能说“非常兴奋”。坦率的讲，在纯技术型公司太幸福... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-32">
                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
@@ -277,13 +277,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2016/05/29/JS浮点数四则运算精度丢失问题/" data-toggle="tooltip" data-placement="top" title="JS浮点数四则运算精度丢失问题">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2016/04/29/JavaScript代码规范/" data-toggle="tooltip" data-placement="top" title="JavaScript代码规范">Next Post &rarr;</a>
+                            <a href="/2017/02/11/Mac-工作环境安装及备份/" data-toggle="tooltip" data-placement="top" title="Mac 工作环境安装及备份">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -292,9 +288,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="2016/05/10/CSS中的定位(position属性)/"
-                        data-title="CSS中的定位（ position属性 ）"
-                        data-url="http://nutlee.space/2016/05/10/CSS中的定位(position属性)/" >
+                        data-thread-key="2017/02/27/Git-协作模式/"
+                        data-title="Git 协作模式"
+                        data-url="http://nutlee.space/2017/02/27/Git-协作模式/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -327,15 +323,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#position" title="position">position</a>
-                        
-                          <a class="tag" href="/tags/#absolute" title="absolute">absolute</a>
-                        
-                          <a class="tag" href="/tags/#relative" title="relative">relative</a>
-                        
-                          <a class="tag" href="/tags/#fixed" title="fixed">fixed</a>
-                        
-                          <a class="tag" href="/tags/#float" title="float">float</a>
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
                         
                     </div>
                 </section>

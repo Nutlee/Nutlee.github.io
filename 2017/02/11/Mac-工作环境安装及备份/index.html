@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -195,7 +195,7 @@
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>作为一个普通前端，先上一个 list 吧，后面想到再补充。</p>
 <ul>
 <li>Homebrew &amp;&amp; Homebrew cask</li>
-<li>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2 </li>
+<li>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTerm2 </li>
 <li>nvm &amp;&amp; Node.js</li>
 <li>Sublime Text3</li>
 <li>Git</li>
@@ -210,13 +210,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div></pre></td></tr></table></figure>
 <p>Homebrew cask 安装</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 需先安装 Homebrew</span></div><div class="line"><span class="keyword">brew </span><span class="keyword">install </span>cask</div></pre></td></tr></table></figure>
-<p>关于 Homebrew 和 Homebrew cask 在我这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTem2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTem2+zsh+oh-my-zsh安装部署</a>有说</p>
+<p>关于 Homebrew 和 Homebrew cask 在我这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTerm2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTerm2+zsh+oh-my-zsh安装部署</a>有说</p>
 <blockquote>
 <p>Homebrew 是 MacOS 上的套件管理器，主要面对开发者，你几乎可以用它下载和部署所有的软件/环境，类似于 iOS 上越狱后的 Cyida。<br>Homebrew-cask 主要针对普通用户，用来下载各种 GUI 程序，是 Homebrew 的补充。</p>
 </blockquote>
 <p>先安装 Homebrew 的原因是后续的软件基本上都可以通过 Homebrew 来安装，这样我们就有一个统一的管理软件的工具了。</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">brew </span><span class="keyword">install </span>&lt;package_name&gt;</div><div class="line"><span class="comment"># 或者</span></div><div class="line"><span class="keyword">brew </span>cask <span class="keyword">install </span>&lt;package_name&gt;</div></pre></td></tr></table></figure>
-<h3 id="Zsh-amp-amp-oh-my-zsh-amp-amp-iTem2"><a href="#Zsh-amp-amp-oh-my-zsh-amp-amp-iTem2" class="headerlink" title="Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2"></a>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTem2</h3><p>这个的安装可以看我之前的这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTem2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTem2+zsh+oh-my-zsh安装部署</a>，基本思路就是用 Homebrew 安装 Zsh，Homebrew-cask 安装 iTem2 ,然后安装 ob-my-zsh，再安装相应的主题、插件。</p>
+<h3 id="Zsh-amp-amp-oh-my-zsh-amp-amp-iTerm2"><a href="#Zsh-amp-amp-oh-my-zsh-amp-amp-iTerm2" class="headerlink" title="Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTerm2"></a>Zsh &amp;&amp; oh-my-zsh &amp;&amp; iTerm2</h3><p>这个的安装可以看我之前的这篇<a href="http://nutlee.space/2016/08/28/shell%E5%A2%9E%E5%BC%BA%E6%9C%AF--iTerm2-zsh-oh-my-zsh%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">shell增强术–iTerm2+zsh+oh-my-zsh安装部署</a>，基本思路就是用 Homebrew 安装 Zsh，Homebrew-cask 安装 iTerm2 ,然后安装 ob-my-zsh，再安装相应的主题、插件。</p>
 <h3 id="nvm-amp-amp-Node-js"><a href="#nvm-amp-amp-Node-js" class="headerlink" title="nvm &amp;&amp; Node.js"></a>nvm &amp;&amp; Node.js</h3><p>nvm 安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install nvm</div></pre></td></tr></table></figure>
 <p>Node.js 安装</p>
@@ -249,7 +249,7 @@
 <ul>
 <li>Sublime Text3 插件、设置、图标、字体</li>
 <li>Zsh 的插件</li>
-<li>iTem2 的设置和主题、配色方案</li>
+<li>iTerm2 的设置和主题、配色方案</li>
 <li>其他</li>
 </ul>
 <p>但是备份是个细致活，一不小心就“回到解放前”了。</p>
@@ -257,7 +257,7 @@
 <p>备份 Packages 即可备份所有的插件、设置。</p>
 <p>如果你在 Sublime 中使用了自定义的字体，那么还需要在系统自带的 App — <strong>字体册</strong> 中导出字体并备份。</p>
 <h3 id="Zsh"><a href="#Zsh" class="headerlink" title="Zsh"></a>Zsh</h3><p>备份 <code>~/.oh-my-zsh/</code> 下的 <code>plugins</code> 和 <code>themes</code> 文件夹，即可。<br>注意：通常这样备份后恢复时还需要在目标机器， <code>~/.zshrc</code> 文件中开启了对应的插件和主题。</p>
-<h3 id="iTem2"><a href="#iTem2" class="headerlink" title="iTem2"></a>iTem2</h3><p>这里分成两部分<br>关于基本的快捷键和软件设置，备份 <code>~/Library/Preferences/com.googlecode.iterm2.plist</code> 文件就好。<br>关于主题，将 Preference =&gt; Profiles =&gt; Colors 右下角下拉按钮选择 <code>Export</code> 即可。</p>
+<h3 id="iTerm2"><a href="#iTerm2" class="headerlink" title="iTerm2"></a>iTerm2</h3><p>这里分成两部分<br>关于基本的快捷键和软件设置，备份 <code>~/Library/Preferences/com.googlecode.iterm2.plist</code> 文件就好。<br>关于主题，将 Preference =&gt; Profiles =&gt; Colors 右下角下拉按钮选择 <code>Export</code> 即可。</p>
 <hr>
 <p>参考资料：<br><a href="http://yijiebuyi.com/blog/b1328ffe88cdde6b4102894635cf8f11.html" target="_blank" rel="external">node.js 版本控制 nvm 和 n 使用 及 nvm 重启终端失效的解决方法</a><br><a href="http://www.cnblogs.com/Don/p/4672287.html" target="_blank" rel="external">Mac上使用brew安装nvm来支持多版本的Nodejs</a><br><a href="https://github.com/creationix/nvm" target="_blank" rel="external">creationix/nvm</a><br><a href="http://lovelock.coding.me/mac/2015-09-20-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iTerm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" target="_blank" rel="external">批量删除iTerm2的主题配置</a></p>
 

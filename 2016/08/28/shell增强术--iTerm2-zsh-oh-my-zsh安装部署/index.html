@@ -13,11 +13,11 @@
 
     <title>
         
-          shell增强术--iTem2+zsh+oh-my-zsh安装部署 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+          shell增强术--iTerm2+zsh+oh-my-zsh安装部署 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://nutlee.space/2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/">
+    <link rel="canonical" href="http://nutlee.space/2016/08/28/shell增强术--iTerm2-zsh-oh-my-zsh安装部署/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#Node.js 前端工具" title="Node.js 前端工具">Node.js 前端工具</a>
                         
                     </div>
-                    <h1>shell增强术--iTem2+zsh+oh-my-zsh安装部署</h1>
+                    <h1>shell增强术--iTerm2+zsh+oh-my-zsh安装部署</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Nutlee on
@@ -191,10 +191,10 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>最近 Node.js、Ubuntu、Git 都用的很多，疯狂的敲了很多命令，闲来无事面对 MacOS 自带的拙劣终端终于忍不了了，动手搞了 iTem2 + zsh + oh-my-zsh。网上此类资料很多，本文也没有什么特殊的，全当个人用来记录安装过程吧。<br><a id="more"></a></p>
-<h2 id="shell？bash？zsh？终端？"><a href="#shell？bash？zsh？终端？" class="headerlink" title="shell？bash？zsh？终端？"></a>shell？bash？zsh？终端？</h2><p>关于这几者的区别，我看到网上一个说法很好，shell 是“抽象类”，bash、zsh 都是“类的实例”，事实上 shell 是用户 Linux 之间的接口程序，你在提示符下输入的每个命令都由shell先解释然后传给Linux内核，而终端（ iTem2 ）只是个 GUI 用来接入各种 shell 的。bash 和 zsh 略有不同，但不在本文的探讨范围，普通用户可以姑且当作一样啦。</p>
-<h2 id="为什么要安装-iTem2？"><a href="#为什么要安装-iTem2？" class="headerlink" title="为什么要安装 iTem2？"></a>为什么要安装 iTem2？</h2><p>如果是一个使用过 Linux/MacOS 的开发者，应该都能体会到命令行的强大。作为敲命令的直接工具，不能扩展功能，没有深度定制的高亮样式，系统自带的终端肯定会觉着枯燥。所以尝试下 iTem2 就是为了完美主义者而产生的，并且使用 iTem2 可以自由的切换 bash 和 zsh。</p>
-<h2 id="如何安装-iTem2"><a href="#如何安装-iTem2" class="headerlink" title="如何安装 iTem2"></a>如何安装 iTem2</h2><p>安装 iTem2 有多种方法，最最简单的肯定是访问<a href="https://www.iterm2.com/" target="_blank" rel="external">官网</a>下载安装。</p>
+                <p>最近 Node.js、Ubuntu、Git 都用的很多，疯狂的敲了很多命令，闲来无事面对 MacOS 自带的拙劣终端终于忍不了了，动手搞了 iTerm2 + zsh + oh-my-zsh。网上此类资料很多，本文也没有什么特殊的，全当个人用来记录安装过程吧。<br><a id="more"></a></p>
+<h2 id="shell？bash？zsh？终端？"><a href="#shell？bash？zsh？终端？" class="headerlink" title="shell？bash？zsh？终端？"></a>shell？bash？zsh？终端？</h2><p>关于这几者的区别，我看到网上一个说法很好，shell 是“抽象类”，bash、zsh 都是“类的实例”，事实上 shell 是用户 Linux 之间的接口程序，你在提示符下输入的每个命令都由shell先解释然后传给Linux内核，而终端（ iTerm2 ）只是个 GUI 用来接入各种 shell 的。bash 和 zsh 略有不同，但不在本文的探讨范围，普通用户可以姑且当作一样啦。</p>
+<h2 id="为什么要安装-iTerm2？"><a href="#为什么要安装-iTerm2？" class="headerlink" title="为什么要安装 iTerm2？"></a>为什么要安装 iTerm2？</h2><p>如果是一个使用过 Linux/MacOS 的开发者，应该都能体会到命令行的强大。作为敲命令的直接工具，不能扩展功能，没有深度定制的高亮样式，系统自带的终端肯定会觉着枯燥。所以尝试下 iTerm2 就是为了完美主义者而产生的，并且使用 iTerm2 可以自由的切换 bash 和 zsh。</p>
+<h2 id="如何安装-iTerm2"><a href="#如何安装-iTerm2" class="headerlink" title="如何安装 iTerm2"></a>如何安装 iTerm2</h2><p>安装 iTerm2 有多种方法，最最简单的肯定是访问<a href="https://www.iterm2.com/" target="_blank" rel="external">官网</a>下载安装。</p>
 <p>不过，作为爱折腾的程序员，我们肯定不能满足于此啊。</p>
 <h3 id="安装-Homebrew-amp-amp-Homebrew-cask"><a href="#安装-Homebrew-amp-amp-Homebrew-cask" class="headerlink" title="安装 Homebrew &amp;&amp; Homebrew cask"></a>安装 Homebrew &amp;&amp; Homebrew cask</h3><p>Homebrew 是 MacOS 上的套件管理器，主要面对开发者，你几乎可以用它下载和部署所有的软件/环境，类似于 iOS 上越狱后的 Cyida。一句话，如果你用 MacOS 工作，Homebrew 不可或缺。</p>
 <ul>
@@ -216,17 +216,17 @@
   <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 检测homebrew环境</div><div class="line"><span class="keyword">brew </span>doctor &amp;&amp; <span class="keyword">brew </span>cask doctor</div><div class="line">// 更新 清理</div><div class="line"><span class="keyword">brew </span>update &amp;&amp; <span class="keyword">brew </span>upgrade <span class="keyword">brew-cask </span>&amp;&amp; <span class="keyword">brew </span>cleanup &amp;&amp; <span class="keyword">brew </span>cask cleanup</div><div class="line">// 拆卸</div><div class="line"><span class="keyword">brew </span>cask uninstall qq</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="使用-Homebrew-cask-安装-iTem2"><a href="#使用-Homebrew-cask-安装-iTem2" class="headerlink" title="使用 Homebrew-cask 安装 iTem2"></a>使用 Homebrew-cask 安装 iTem2</h3><ul>
+<h3 id="使用-Homebrew-cask-安装-iTerm2"><a href="#使用-Homebrew-cask-安装-iTerm2" class="headerlink" title="使用 Homebrew-cask 安装 iTerm2"></a>使用 Homebrew-cask 安装 iTerm2</h3><ul>
 <li><p>安装只需要一行命令 </p>
   <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">brew </span>cask <span class="keyword">install </span>iterm2</div></pre></td></tr></table></figure>
 </li>
 <li><p>设置成默认终端</p>
-<p>  在 打开 iTem2 点击左上角 iTem2 在点 Make iTerm2 Default Term，或者在 iTem2 中直接按下快捷键 ⌃⇧⌘\</p>
+<p>  在 打开 iTerm2 点击左上角 iTerm2 在点 Make iTerm2 Default Term，或者在 iTerm2 中直接按下快捷键 ⌃⇧⌘\</p>
 </li>
 <li><p>设置配色方案</p>
 <p>  在 <a href="http://iterm2colorschemes.com/" target="_blank" rel="external">iterm2colorschemes</a> 或者 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="external">GitHub仓库</a> 中把整个文件夹下载下来。</p>
 <p>  在其中的 schemes 文件夹中先选好像设置的配色方案</p>
-<p>  依次打开 iTem2 –&gt; Preferences –&gt; Profiles –&gt; colors –&gt; 右下角 Color Presets 中 import，选择已经挑选好的 schemes 中的 .itermcolors 文件即可。</p>
+<p>  依次打开 iTerm2 –&gt; Preferences –&gt; Profiles –&gt; colors –&gt; 右下角 Color Presets 中 import，选择已经挑选好的 schemes 中的 .itermcolors 文件即可。</p>
 </li>
 </ul>
 <h2 id="使用-Zsh"><a href="#使用-Zsh" class="headerlink" title="使用 Zsh"></a>使用 Zsh</h2><p>zsh 就是终极 shell。</p>
@@ -271,7 +271,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="iTem2-主题"><a href="#iTem2-主题" class="headerlink" title="iTem2 主题"></a>iTem2 主题</h2><p>以 <a href="https://github.com/sabertazimi" target="_blank" rel="external">sabertazimi</a> 写的 <a href="https://github.com/sabertazimi/dragon-zsh-theme" target="_blank" rel="external">dragon</a> 主题为例</p>
+<h2 id="iTerm2-主题"><a href="#iTerm2-主题" class="headerlink" title="iTerm2 主题"></a>iTerm2 主题</h2><p>以 <a href="https://github.com/sabertazimi" target="_blank" rel="external">sabertazimi</a> 写的 <a href="https://github.com/sabertazimi/dragon-zsh-theme" target="_blank" rel="external">dragon</a> 主题为例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 在任意位置clone主题</div><div class="line">git clone git@github.com:sabertazimi/dragon-zsh-theme.git</div></pre></td></tr></table></figure>
 <p>复制其中的 <code>dragon.zsh-theme</code> 到 <code>oh-my-zsh</code> 的 <code>theme</code> 目录，默认为 <code>~/.oh-my-zsh/themes</code></p>
 <p>修改 <code>.zshrc</code> 的 <code>theme</code> 字段</p>
@@ -285,9 +285,9 @@
                 </style>
                 <div class="ds-share flat"
                     style="text-align: right"
-                    data-thread-key="2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/"
-                    data-title="shell增强术--iTem2+zsh+oh-my-zsh安装部署"
-                    data-url="http://nutlee.space/2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/"
+                    data-thread-key="2016/08/28/shell增强术--iTerm2-zsh-oh-my-zsh安装部署/"
+                    data-title="shell增强术--iTerm2+zsh+oh-my-zsh安装部署"
+                    data-url="http://nutlee.space/2016/08/28/shell增强术--iTerm2-zsh-oh-my-zsh安装部署/"
                     data-images=""
                     data-content="最近 Node.js、Ubuntu、Git 都用的很多，疯狂的敲了很多命令，闲来无事面对 Ma... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
                     <div class="ds-share-inline">
@@ -327,9 +327,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/"
-                        data-title="shell增强术--iTem2+zsh+oh-my-zsh安装部署"
-                        data-url="http://nutlee.space/2016/08/28/shell增强术--iTem2-zsh-oh-my-zsh安装部署/" >
+                        data-thread-key="2016/08/28/shell增强术--iTerm2-zsh-oh-my-zsh安装部署/"
+                        data-title="shell增强术--iTerm2+zsh+oh-my-zsh安装部署"
+                        data-url="http://nutlee.space/2016/08/28/shell增强术--iTerm2-zsh-oh-my-zsh安装部署/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

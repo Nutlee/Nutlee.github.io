@@ -13,11 +13,11 @@
 
     <title>
         
-          Git 协作模式 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+          JavaScript 设计模式 -- 职责链 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://nutlee.space/2017/02/27/Git-协作模式/">
+    <link rel="canonical" href="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
                         
                     </div>
-                    <h1>Git 协作模式</h1>
+                    <h1>JavaScript 设计模式 -- 职责链</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Nutlee on
-                        2017-02-27
+                        2017-05-03
                     </span>
                 </div>
             </div>
@@ -191,51 +191,23 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>进新公司第二周，完全是从未接触过的工作氛围，只能说“非常兴奋”。坦率的讲，在纯技术型公司太幸福了，有点理解之前雷军说「<strong>我要写一辈子的代码</strong>」的意味了。<br><a id="more"></a></p>
-<p>经过了接连踩坑，有必要记录下点点滴滴，原来自己之前对 Git 的使用是有误解的，我之在只在意 Git 的语法（虽然Git 命令也没熟到哪里），并没有理解 Git 最核心的是协作思想，至于各种命令只是副产物。下面我要先从反面讲我之前的误区，然后结合公司的实践进入正题「<strong>Git协作模式</strong>」</p>
-<h2 id="需要澄清的误区"><a href="#需要澄清的误区" class="headerlink" title="需要澄清的误区"></a>需要澄清的误区</h2><p>一直以来我的认知的 Git branch 结构是如下：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">|-- master  主分支</span></div><div class="line"><span class="string">|-- dev 开发分支</span></div><div class="line"><span class="string">|-- bug</span></div><div class="line"><span class="string">|-- feature</span></div></pre></td></tr></table></figure>
-<p>这里没有错，但是重点在于，我的理解是每个人根据自己的工作内容新建不同的分支，进而合并到 <code>dev</code> ，<code>dev</code> 再合并到 <code>master</code>（或者直接合并到<code>master</code>），表面上看是条理的，然而自己想想这样真的很蛋疼，意味着你的每次 <code>feature</code> 或者 <code>fix</code> 都要走这么一个流程，且不说流程的复杂，至少在多人协作的时候，你合并到了 <code>dev</code>，我也合并过去，再到 <code>master</code>，出了问题怎么排查？</p>
-<p>所以，我对 Git 的理解纯属 YY，那么问题来了，怎么样用 Git 才是正确的“姿势”呢？</p>
-<h2 id="正确的模式"><a href="#正确的模式" class="headerlink" title="正确的模式"></a>正确的模式</h2><p>首页，分支的结构和上面说的基本一致，重点在于：</p>
-<ul>
-<li><code>master</code> 只有一个，主分支，只能 <code>merge</code> 进去，<strong>绝对不能直接操作</strong>，有冲突先将 <code>master</code> 合并到冲突分支，解决冲突后再合并到 <code>master</code></li>
-<li><code>develop</code> 只有一个，是“脏分支”，可以任意合并，用于内部测试、预览（alpha 环境）</li>
-<li><code>feature/XXXXX</code> 每个人开发的时候从最新的 <code>master</code> 切出来的，开发阶段可以合并到 <code>develop</code> 分支测试、预览，开发完成需合并到 <code>master</code></li>
-<li><code>fix/XXXXX</code> 修复指定问题或者 bug的分支，类似 <code>feature</code> 分支，开发阶段可以合并到 <code>develop</code> 分支测试、预览，开发完成需合并到 <code>master</code></li>
-<li>如果有其他类型的分支，操作习惯等同于 <code>feature</code></li>
-</ul>
-<p>需要注意的是：</p>
-<ul>
-<li>绝对不能直接直接对 <code>master</code> 分支进行操作！！！<code>master</code> 分支只存在其他分支合并进去这种可能，当然如果有冲突先在自己分支解决冲突</li>
-<li>创建任何需要提交的分支一定来自是来自 <code>master</code> 分支的 <code>checkout</code></li>
-</ul>
-<h2 id="Git-姿势"><a href="#Git-姿势" class="headerlink" title="Git 姿势"></a>Git 姿势</h2><p>以下是几个常用的 Git “痛点”</p>
-<ol>
-<li><p>缓存工作区</p>
-<p> 众所周知，当前工作区修改后没有提交时直接切换分支，Git 会有警告不让你直接切换，一般的做法就是把当前的修改 <code>add</code> 再 <code>commit</code> 到仓库再切换，其实用 <code>stash</code> 更优雅。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 缓存当前的工作区</div><div class="line">git stash</div><div class="line"># 取出缓存的修改</div><div class="line">git stash apply</div></pre></td></tr></table></figure>
-<p> 尤其是暂时性切换到别的分支，再切回来的时候，使用 <code>stash</code> 非常方便，但是<strong>友情提醒</strong>，如果是多个分支来回切换并且长时间工作，建议还是 <code>commit</code> 到仓库吧，因为时间久了你可能会忘记 <code>stash</code> 的是哪个分支的何种修改。</p>
-</li>
-<li><p>版本回滚</p>
-<p> 通常情况下用 <code>checkout</code> 回滚文件，用 <code>reset</code> 回滚版本</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 丢弃工作区文件</div><div class="line">git checkout -- file</div><div class="line"># 暂存区放回工作区</div><div class="line">git reset HEAD file</div><div class="line"># 版本回退 HEAD 指当前版本，HEAD^ 指上一版本</div><div class="line"># 完全舍弃当前的修改</div><div class="line">git reset --hard HEAD</div></pre></td></tr></table></figure>
-<p> <strong>特殊情况</strong> <code>revert</code> 可以回滚到指定版本并生成一次回滚提交，主要用与 <code>master</code> 等核心分支，体现完整的开发记录。</p>
- <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 回滚到倒数第二个版本</span></div><div class="line"><span class="attribute">git</span> revert HEAD~<span class="number">2</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>遴选</p>
-<p> 遴选这个功能是为了防止“手抖”，有时候你可能会不注意直接在 <code>develop</code> 分支修改了，并且提交到了代码仓库，一般情况下的处理方式就是到自己的分支上再改一遍了。遴选就是为了处理这种情况的，通过查看 <code>develop</code> 分支的 <code>log</code>，然后根据 commit-id 可以挑出来某次提交，再切换到自己的分支合并。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 切换到自己的分支</div><div class="line">git cherry-pick commit-id</div></pre></td></tr></table></figure>
-</li>
-<li><p>远端仓库</p>
- <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 取远端仓库并创建分支</span></div><div class="line">git fetch origin <span class="literal">master</span>: feature/XXX</div></pre></td></tr></table></figure>
-</li>
-<li><p>其他</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 创建分支</div><div class="line">git checkout -b [new branch]</div><div class="line">git checkout -D [branch]</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<p>参考资料：<br><a href="https://github.com/geeeeeeeeek/git-recipes/wiki/5.2-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A%EF%BC%9AReset%E3%80%81Checkout%E3%80%81Revert%E7%9A%84%E9%80%89%E6%8B%A9" target="_blank" rel="external">5.2 代码回滚：Reset、Checkout、Revert的选择</a></p>
+                <p>设计模式本身是个听起来高大上的东西，在《JavaScript 设计模式与开发实践》一书的前沿部分有个我喜欢的解释</p>
+<blockquote>
+<p>通俗一点说，设计模式是在某种场合下对某个问题的一种解决方案。如果再通俗一点说，<strong>设计模式就是给面向对象软件开发者的一些好的设计取个名字</strong></p>
+</blockquote>
+<p>有趣的是 JavaScript 作为一种松散的没边的语言，各种设计模式事实上是浸入骨髓的，或者说 JS 天生就带有一些设计模式，这就带来了其他语言难以比拟的灵活性。<br><a id="more"></a></p>
+<p>本文主要从实践出发，介绍一下职责链模式</p>
+<h2 id="什么是职责链"><a href="#什么是职责链" class="headerlink" title="什么是职责链"></a>什么是职责链</h2><p>职责链的定义是，使多个对象都有机会处理请求，从而避免请求的发送者和接受者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到一个对象处理它为止。</p>
+<p>简单的说就是构造一个类，类的内部存在某种关联，可以将一系列的校验对象连接起来并且从链的起点开始启动。</p>
+<h2 id="构造-Chain-类"><a href="#构造-Chain-类" class="headerlink" title="构造 Chain 类"></a>构造 Chain 类</h2><p>这个是我根据书上的例子，结合同步和异步函数的特点改写的 Chain 类，</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chain</span> </span>&#123;</div><div class="line">  <span class="comment">// 根据处理函数初始化类</span></div><div class="line">  <span class="keyword">constructor</span>(fn) &#123;</div><div class="line">    <span class="keyword">this</span>.fn = fn</div><div class="line">    <span class="keyword">this</span>.successor = <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 关联下一级</span></div><div class="line">  setNext(successor) &#123;</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">this</span>.successor = successor)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 启动校验</span></div><div class="line">  passRequest() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.fn.apply(<span class="keyword">this</span>, arguments)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 向下一级传递</span></div><div class="line">  next() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.successor &amp;&amp; <span class="keyword">this</span>.successor.passRequest.apply(<span class="keyword">this</span>.successor, arguments)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：一般书上使用处理函数返回一个类似 <code>&#39;nextSuccessor&#39;</code> 的标志来向下一级传递，实际业务中这样的可读性和方便性不高，故改为手动掉 <code>next()</code> 来处理，兼顾异步。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>假设一个问题，一个厂有若干员工如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = [</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">years</span>: <span class="number">2</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'b'</span>, <span class="attr">years</span>: <span class="number">1</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'c'</span>, <span class="attr">years</span>: <span class="number">2</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'d'</span>, <span class="attr">years</span>: <span class="number">5</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'e'</span>, <span class="attr">years</span>: <span class="number">10</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'f'</span>, <span class="attr">years</span>: <span class="number">7</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>现在要根据年龄和性别发奖金，规则如下</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">大于 <span class="number">2</span>年工龄，男，<span class="number">1000</span>块</div><div class="line">大于 <span class="number">2</span>年工龄，女，<span class="number">1200</span>块</div><div class="line">大于 <span class="number">1</span>年工龄 <span class="number">500</span>块</div></pre></td></tr></table></figure>
+<p>实例代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> countMoney = <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// 检查 2年 男</span></div><div class="line">  <span class="keyword">let</span> checkYears = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">2</span> &amp;&amp; sex === <span class="string">'man'</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金1000元`</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.next(&#123;name, years, sex&#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 检查 2年 女</span></div><div class="line">  <span class="keyword">let</span> checkSex = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">2</span> &amp;&amp; sex === <span class="string">'woman'</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金1200元`</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.next(&#123;name, years, sex&#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 默认</span></div><div class="line">  <span class="keyword">let</span> checkDefault = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">1</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金500元`</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，无奖金`</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> fn1 = <span class="keyword">new</span> Chain(checkYears)</div><div class="line">  <span class="keyword">let</span> fn2 = <span class="keyword">new</span> Chain(checkSex)</div><div class="line">  <span class="keyword">let</span> fn3 = <span class="keyword">new</span> Chain(checkDefault)</div><div class="line">  fn1.setNext(fn2).setNext(fn3)</div><div class="line">  <span class="keyword">return</span> fn1</div><div class="line">&#125;)()</div><div class="line"></div><div class="line">countMoney.passRequest(person[<span class="number">0</span>])</div></pre></td></tr></table></figure>
 
 
                 <hr>
@@ -245,11 +217,11 @@
                 </style>
                 <div class="ds-share flat"
                     style="text-align: right"
-                    data-thread-key="2017/02/27/Git-协作模式/"
-                    data-title="Git 协作模式"
-                    data-url="http://nutlee.space/2017/02/27/Git-协作模式/"
+                    data-thread-key="2017/05/03/JavaScript-设计模式-职责链/"
+                    data-title="JavaScript 设计模式 -- 职责链"
+                    data-url="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/"
                     data-images=""
-                    data-content="进新公司第二周，完全是从未接触过的工作氛围，只能说“非常兴奋”。坦率的讲，在纯技术型公司太幸福... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    data-content="设计模式本身是个听起来高大上的东西，在《JavaScript 设计模式与开发实践》一书的前沿部... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-32">
                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
@@ -272,13 +244,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2017/05/03/JavaScript-设计模式-职责链/" data-toggle="tooltip" data-placement="top" title="JavaScript 设计模式 -- 职责链">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2017/02/11/Mac-工作环境安装及备份/" data-toggle="tooltip" data-placement="top" title="Mac 工作环境安装及备份">Next Post &rarr;</a>
+                            <a href="/2017/02/27/Git-协作模式/" data-toggle="tooltip" data-placement="top" title="Git 协作模式">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -287,9 +255,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="2017/02/27/Git-协作模式/"
-                        data-title="Git 协作模式"
-                        data-url="http://nutlee.space/2017/02/27/Git-协作模式/" >
+                        data-thread-key="2017/05/03/JavaScript-设计模式-职责链/"
+                        data-title="JavaScript 设计模式 -- 职责链"
+                        data-url="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -322,7 +290,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
                         
                     </div>
                 </section>

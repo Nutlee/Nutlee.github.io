@@ -13,11 +13,11 @@
 
     <title>
         
-          JavaScript 设计模式 -- 职责链 - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
+          你不知道的iOS - 一个理想主义程序员的自留地 | Nutlee&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/">
+    <link rel="canonical" href="http://nutlee.space/2017/06/18/你不知道的iOS/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
-                        
                     </div>
-                    <h1>JavaScript 设计模式 -- 职责链</h1>
+                    <h1>你不知道的iOS</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Nutlee on
-                        2017-05-03
+                        2017-06-18
                     </span>
                 </div>
             </div>
@@ -191,24 +189,91 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>设计模式本身是个听起来高大上的东西，在《JavaScript 设计模式与开发实践》一书的前言部分有个我喜欢的解释</p>
+                <p>关于这个题目是巫荣问我有什么好分享的，我翻来覆去一个晚上憋出来的，之所以下定决心分享是因为，我再不分享你们自己知道了，我就没法装逼啦。</p>
+<p>很多同学可能以为我要分享 iOS 开发了。<br>然而，并没有和开发有关的东西。</p>
+<p>这个题目，本来想叫“你对 iOS 一无所知” 的，后来感觉太狂了，还是叫这个吧。</p>
+<p>先声明，本文基于我对 iOS 自以为是的认识和对安卓的浅薄认知，欢迎各种喷。</p>
+<p>题目是来自知名“小黄书” — 《You don’t konw JavaScript》，所以就不要质疑我这个破英语啦😄</p>
+<a id="more"></a>
+<p>我要讲什么呢？</p>
+<ul>
+<li>关于 iOS 你可能知道</li>
+<li>关于 iOS 你可能不知道的</li>
+<li>安卓是否真的“水深火热”</li>
+</ul>
+<h2 id="关于-iOS，你可能知道的"><a href="#关于-iOS，你可能知道的" class="headerlink" title="关于 iOS，你可能知道的"></a>关于 iOS，你可能知道的</h2><ul>
+<li>貌似优质应用</li>
+</ul>
+<p>你也不知道不优质的啥样</p>
+<ul>
+<li>貌似简洁</li>
+</ul>
+<p>对比 iOS 10 和 三星 S8 上的通知栏<br>其实，你也不关心，对吧</p>
+<ul>
+<li>贵，啥啥都付费</li>
+</ul>
+<p>上周石成推荐的 omniFocus 让我们的功廷都觉着贵了，同时推荐另外一个最近大热的 GTD App Thing 3 全平台</p>
+<ul>
+<li>封闭 </li>
+</ul>
+<p>关于腾讯取消 iOS 打赏功能。</p>
 <blockquote>
-<p>通俗一点说，设计模式是在某种场合下对某个问题的一种解决方案。如果再通俗一点说，<strong>设计模式就是给面向对象软件开发者的一些好的设计取个名字</strong></p>
+<p>3.1.1 In-App Purchase:<br>If you want to unlock features or functionality within your App, (by way of example: subscriptions, in-game currencies, game levels, access to premium content, or unlocking a full version), you must use in-App purchase. <strong>App Store may use in-App purchase currencies to enable customers to “tip” digital content providers in the App.</strong> App Store may not include buttons, external links, or other calls to action that direct customers to purchasing mechanisms other than IAP.</p>
 </blockquote>
-<p>有趣的是 JavaScript 作为一种松散的没边的语言，各种设计模式事实上是浸入骨髓的，或者说 JS 天生就融入了设计模式，这就带来了其他语言难以比拟的灵活性。<br><a id="more"></a></p>
-<p>本文主要从实践出发，介绍一下职责链模式。</p>
-<h2 id="什么是职责链"><a href="#什么是职责链" class="headerlink" title="什么是职责链"></a>什么是职责链</h2><p>职责链的定义是，使多个对象都有机会处理请求，从而避免请求的发送者和接受者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到一个对象处理它为止。</p>
-<p>简单的说就是构造一个类，类的内部存在某种关联，可以将一系列的校验对象连接起来并且从链的起点开始启动。</p>
-<h2 id="构造-Chain-类"><a href="#构造-Chain-类" class="headerlink" title="构造 Chain 类"></a>构造 Chain 类</h2><p>这个是我根据书上的例子，结合同步和异步函数的特点改写的 Chain 类，</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chain</span> </span>&#123;</div><div class="line">  <span class="comment">// 根据处理函数初始化类</span></div><div class="line">  <span class="keyword">constructor</span>(fn) &#123;</div><div class="line">    <span class="keyword">this</span>.fn = fn</div><div class="line">    <span class="keyword">this</span>.successor = <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 关联下一级</span></div><div class="line">  setNext(successor) &#123;</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">this</span>.successor = successor)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 启动校验</span></div><div class="line">  passRequest() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.fn.apply(<span class="keyword">this</span>, arguments)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 向下一级传递</span></div><div class="line">  next() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.successor &amp;&amp; <span class="keyword">this</span>.successor.passRequest.apply(<span class="keyword">this</span>.successor, arguments)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意：一般书上使用处理函数返回一个类似 <code>&#39;nextSuccessor&#39;</code> 的标志来向下一级传递，实际业务中这样的可读性和方便性不高，故改为手动调 <code>next()</code> 来处理，兼顾异步。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>假设一个问题，一个厂有若干员工如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> person = [</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'a'</span>, <span class="attr">years</span>: <span class="number">2</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'b'</span>, <span class="attr">years</span>: <span class="number">1</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'c'</span>, <span class="attr">years</span>: <span class="number">2</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'d'</span>, <span class="attr">years</span>: <span class="number">5</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'e'</span>, <span class="attr">years</span>: <span class="number">10</span>, <span class="attr">sex</span>: <span class="string">'woman'</span>&#125;,</div><div class="line">  &#123;<span class="attr">name</span>: <span class="string">'f'</span>, <span class="attr">years</span>: <span class="number">7</span>, <span class="attr">sex</span>: <span class="string">'man'</span>&#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>现在要根据年龄和性别发奖金，规则如下</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">大于 <span class="number">2</span>年工龄，男，<span class="number">1000</span>块</div><div class="line">大于 <span class="number">2</span>年工龄，女，<span class="number">1200</span>块</div><div class="line">大于 <span class="number">1</span>年工龄 <span class="number">500</span>块</div></pre></td></tr></table></figure>
-<p>如果使用传统的流程语句会造成多层的条件语句嵌套，虽然本例多个 if 语句嵌套并不复杂，但考虑到工作中复杂业务，多个条件语句的维护性非常差，相反使用职责链模式可以快速定位改动检查逻辑，可维护性无可比拟。</p>
-<p>职责链实例代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> countMoney = <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// 检查 2年 男</span></div><div class="line">  <span class="keyword">let</span> checkYears = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">2</span> &amp;&amp; sex === <span class="string">'man'</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金1000元`</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.next(&#123;name, years, sex&#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 检查 2年 女</span></div><div class="line">  <span class="keyword">let</span> checkSex = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">2</span> &amp;&amp; sex === <span class="string">'woman'</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金1200元`</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.next(&#123;name, years, sex&#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 检查 1年</span></div><div class="line">  <span class="keyword">let</span> checkDefault = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;name, years, sex&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (years &gt;= <span class="number">1</span>) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，奖金500元`</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;name&#125;</span>，性别<span class="subst">$&#123;sex&#125;</span>，工龄<span class="subst">$&#123;years&#125;</span>，无奖金`</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> fn1 = <span class="keyword">new</span> Chain(checkYears)</div><div class="line">  <span class="keyword">let</span> fn2 = <span class="keyword">new</span> Chain(checkSex)</div><div class="line">  <span class="keyword">let</span> fn3 = <span class="keyword">new</span> Chain(checkDefault)</div><div class="line">  fn1.setNext(fn2).setNext(fn3)</div><div class="line">  <span class="keyword">return</span> fn1</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="comment">// 任选一个员工开始检查奖励策略</span></div><div class="line">countMoney.passRequest(person[<span class="number">0</span>])</div></pre></td></tr></table></figure>
+<ul>
+<li>情怀 </li>
+</ul>
+<p>关于乔帮主 😢<br>关于 iOS6</p>
+<h2 id="关于-iOS，你可能不要知道，但又必须要知道的"><a href="#关于-iOS，你可能不要知道，但又必须要知道的" class="headerlink" title="关于 iOS，你可能不要知道，但又必须要知道的"></a>关于 iOS，你可能不要知道，但又必须要知道的</h2><h3 id="Network-Extension"><a href="#Network-Extension" class="headerlink" title="Network Extension"></a>Network Extension</h3><p>能干嘛？</p>
+<p>在 iOS9 以前，翻墙是件很困难的事，只能通过 Wi-Fi 时设置代理，安装描述文件，或者忍受。</p>
+<p>2015 年的 WWDC，也就是 iOS9 的发布会上，迎来了这个神奇的 API。<br>需要在 Apple Store Developer 中心申请<br>被 Potatso 的开发者称为 “iOS 史上最为开放的 API”</p>
+<p>而现在我们可以依赖这个 API 接管整个手机网络，甚至可以用来干掉广告。</p>
+<p>各类翻墙黑科技<br>都是基于 Shadowsocks 项目</p>
+<ul>
+<li><a href="https://itunes.apple.com/us/app/surge-web-developer-tool-and-proxy-utility/id1040100637?mt=8" target="_blank" rel="external">Surge (Mac/iOS)</a></li>
+<li><a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8" target="_blank" rel="external">Shadowrocket</a></li>
+<li><a href="https://itunes.apple.com/us/app/id1162704202?mt=8" target="_blank" rel="external">Potatso(1.0 已开源)</a></li>
+</ul>
+<p>ShowTime(Surge 演示 用手机抓 新浪微博)</p>
+<h3 id="Action-Extension"><a href="#Action-Extension" class="headerlink" title="Action Extension"></a>Action Extension</h3><p>iOS8 开始集成，简单说是作为沙箱机制的桥梁，以安全的打通各个App。</p>
+<ul>
+<li><p><a href="https://itunes.apple.com/us/app/workflow-powerful-automation-made-simple/id915249334?mt=8" target="_blank" rel="external">workflow</a><br>  各类快捷操作<br>  传新浪图床<br>  <a href="http://workflow.sspai.com/#/main/workflow" target="_blank" rel="external">Workflow Gallery by sspai</a></p>
+</li>
+<li><p><a href="https://itunes.apple.com/cn/app/pin-%E5%89%AA%E8%B4%B4%E6%9D%BF%E6%89%A9%E5%B1%95/id1039643846?mt=8" target="_blank" rel="external">Pin</a><br>  抓Gif到微信、注入 JS</p>
+</li>
+<li><a href="https://itunes.apple.com/us/app/1password-password-manager-and-secure-wallet/id568903335?mt=8" target="_blank" rel="external">1Password</a><br>  Safari 快捷登录百度</li>
+</ul>
+<p>官方允许只基于这个 API 开发的 App 上架</p>
+<p>ShowTime</p>
+<h3 id="黑科技-Handoff"><a href="#黑科技-Handoff" class="headerlink" title="黑科技 Handoff"></a>黑科技 <a href="https://support.apple.com/zh-cn/HT204681" target="_blank" rel="external">Handoff</a></h3><p>Universal Clipboard<br>iPhone 与 Mac App 联动<br>短信、电话</p>
+<p>如果你有 Apple Store Watch….</p>
+<ul>
+<li>解锁 Mac</li>
+<li>控制 Keynote</li>
+</ul>
+<h2 id="与安卓的非典型性差异"><a href="#与安卓的非典型性差异" class="headerlink" title="与安卓的非典型性差异"></a>与安卓的非典型性差异</h2><p>除了 Feature，还有…<br>双击粘贴<br>长按图片复制<br>统一的交互（右划返回）<br>无法替代的 iCloud</p>
+<p>即便这样，依然要说，苹果虽美，但并没有那么好吃。</p>
+<p>槽点：<br>很难做系统级的东西，比如拨号来电显示、播放器歌词<br>服务的愈加不稳定，墙</p>
+<h2 id="照顾下安卓同学的情绪"><a href="#照顾下安卓同学的情绪" class="headerlink" title="照顾下安卓同学的情绪"></a>照顾下安卓同学的情绪</h2><p>“我们安卓也有”</p>
+<ul>
+<li>本来就可以无障碍翻墙</li>
+<li>原生 Android 权限管理</li>
+<li>国内厂商的人文关怀 老人机模式 远程协助</li>
+<li>国内厂商对提升效率的尝试 锤子 OneStep</li>
+<li>“中国特色的各种破解”</li>
+</ul>
+<h2 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h2><p>虽然不玩游戏，但是依然有推荐</p>
+<ul>
+<li><p><a href="https://itunes.apple.com/us/app/human-resource-machine/id1005098334?mt=8" target="_blank" rel="external">Human Resource Machine</a><br>  图形编程，考验算法<br>  <a href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=908519492&amp;mt=8&amp;ls=1" target="_blank" rel="external">Swift Playground</a></p>
+</li>
+<li><p><a href="https://itunes.apple.com/us/app/dont-starve-pocket-edition/id1012298403?mt=8" target="_blank" rel="external">Don’t starve</a>（饥荒）<br>最有趣的是这个游戏永远没有重点，总是已死亡结束，无非是生命的长度不同</p>
+</li>
+<li><p><a href="https://itunes.apple.com/cn/app/%E7%BA%AA%E5%BF%B5%E7%A2%91%E8%B0%B72/id1238778050?mt=8" target="_blank" rel="external">纪念碑谷2</a></p>
+</li>
+</ul>
+<h2 id="致谢-🙇🏻"><a href="#致谢-🙇🏻" class="headerlink" title="致谢 🙇🏻"></a>致谢 🙇🏻</h2><p>Google<br>少数派<br>dribbble</p>
+<h2 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h2><p>本文已经贴到个人博客，欢迎取阅..</p>
+<p>提问时间<br>（如果有的话….）</p>
 
 
                 <hr>
@@ -218,11 +283,11 @@
                 </style>
                 <div class="ds-share flat"
                     style="text-align: right"
-                    data-thread-key="2017/05/03/JavaScript-设计模式-职责链/"
-                    data-title="JavaScript 设计模式 -- 职责链"
-                    data-url="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/"
+                    data-thread-key="2017/06/18/你不知道的iOS/"
+                    data-title="你不知道的iOS"
+                    data-url="http://nutlee.space/2017/06/18/你不知道的iOS/"
                     data-images=""
-                    data-content="设计模式本身是个听起来高大上的东西，在《JavaScript 设计模式与开发实践》一书的前言部... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
+                    data-content="关于这个题目是巫荣问我有什么好分享的，我翻来覆去一个晚上憋出来的，之所以下定决心分享是因为，我... | 一个理想主义程序员的自留地 | Nutlee&#39;s Blog " >
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-32">
                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);"></a></li>
@@ -245,13 +310,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2017/06/18/你不知道的iOS/" data-toggle="tooltip" data-placement="top" title="你不知道的iOS">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2017/02/27/Git-协作模式/" data-toggle="tooltip" data-placement="top" title="Git 协作模式">Next Post &rarr;</a>
+                            <a href="/2017/05/03/JavaScript-设计模式-职责链/" data-toggle="tooltip" data-placement="top" title="JavaScript 设计模式 -- 职责链">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -260,9 +321,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="2017/05/03/JavaScript-设计模式-职责链/"
-                        data-title="JavaScript 设计模式 -- 职责链"
-                        data-url="http://nutlee.space/2017/05/03/JavaScript-设计模式-职责链/" >
+                        data-thread-key="2017/06/18/你不知道的iOS/"
+                        data-title="你不知道的iOS"
+                        data-url="http://nutlee.space/2017/06/18/你不知道的iOS/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -295,8 +356,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
-                        
                     </div>
                 </section>
                 
